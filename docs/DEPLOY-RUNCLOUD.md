@@ -14,12 +14,29 @@ npm ci
 npm run build     # genera dist/ (include anche contact.php, copiato da public/)
 ```
 
-## 2. Pubblicazione dei file
-Il **web root** del web app punta alla cartella che contiene i file di `dist/`.
-Due modi:
-- **Build in locale + upload**: `rsync -av --delete dist/ utente@server:/home/runcloud/webapps/<app>/` (o SFTP).
-- **RunCloud Git deploy**: collega il repo; script di deploy `npm ci && npm run build` e web root = `dist/`
-  (Atomic Deployment). Richiede Node sul server.
+## 2. Pubblicazione dei file — Git deploy da GitHub (scelto)
+
+Repo: **`https://github.com/simoneattana/marchesidigresy`** (privato, branch `main`).
+
+Nel web app RunCloud **mdg.serversite.it**:
+1. **Git** → *Create Git Web Application* / collega repository:
+   - Provider **GitHub** → autorizza (OAuth) → seleziona `simoneattana/marchesidigresy`, branch `main`.
+   - (Repo privato: se non usi l'OAuth, RunCloud genera una **Deploy Key** → aggiungila in
+     GitHub → repo → Settings → Deploy keys.)
+2. **Node.js** sul server: installalo (RunCloud → server → *Native*/*Tools*, o `nvm` nello script di deploy).
+   Serve per la build.
+3. **Deployment script** (RunCloud → Web App → Git → *Deployment Script*):
+   ```bash
+   cd $RUNCLOUD_WEBAPP_ROOT
+   npm ci
+   npm run build
+   ```
+4. **Web root / Public Path**: imposta la cartella pubblica del web app su **`dist`**
+   (RunCloud → Web App → Settings → *Public Path* = `/dist`). nginx servirà `dist/`.
+5. **Deploy** (pulsante *Deploy* / push su `main` se l'auto-deploy è attivo).
+
+> **Alternativa senza Node sul server**: builda in locale (`npm run build`) e pubblica il branch
+> `deploy` con dentro il contenuto di `dist/` (web root = root, nessuno script). Dimmelo e te lo preparo.
 
 ## 3. NGINX (URL puliti + redirect 301)
 Incolla il contenuto di [`deploy/nginx-runcloud.conf`](../deploy/nginx-runcloud.conf) nella sezione
