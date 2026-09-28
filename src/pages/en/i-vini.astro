@@ -1,0 +1,22 @@
+---
+// I Vini EN (/en/i-vini). Stessa struttura della pagina IT, contenuti EN (parziale fedele).
+import Base from '../../layouts/Base.astro';
+import Hero from '../../components/Hero.astro';
+import Footer from '../../components/Footer.astro';
+import WineCatalog from '../../components/WineCatalog.astro';
+import { loadContent, loadSite } from '../../lib/content.js';
+
+const site = loadSite('en');
+const page = loadContent('i-vini', 'en');
+---
+<Base title={page.title} description={page.intro} lang="en">
+  <Hero hero={page.hero} menu={site.menu} title={page.hero.title} />
+
+  <section class="intro">
+    <div class="wrap prose"><p>{page.intro}</p></div>
+  </section>
+
+  <WineCatalog categories={page.categories} />
+
+  <Footer footer={site.footer} />
+</Base>

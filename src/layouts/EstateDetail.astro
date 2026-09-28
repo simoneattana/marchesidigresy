@@ -1,0 +1,32 @@
+---
+// Template per le PAGINE DI DETTAGLIO TENUTA: hero+sottotitolo · intro · (sezione opz.) · mappa · altre tenute · footer.
+import Base from './Base.astro';
+import Hero from '../components/Hero.astro';
+import Footer from '../components/Footer.astro';
+import FeatureSection from '../components/FeatureSection.astro';
+import VineyardMap from '../components/VineyardMap.astro';
+import OtherEstates from '../components/OtherEstates.astro';
+import { loadContent, loadSite } from '../lib/content.js';
+
+interface Props { slug: string; lang?: string }
+const { slug, lang = 'it' } = Astro.props;
+const site = loadSite(lang);
+const page = loadContent(slug, lang);
+---
+<Base title={page.title} description={page.intro?.[0]} lang={lang}>
+  <Hero hero={page.hero} menu={site.menu} title={page.hero.title} subtitle={page.hero.subtitle} />
+
+  <section class="intro">
+    <div class="wrap prose">{page.intro.map((p) => <p set:html={p} />)}</div>
+  </section>
+
+  {page.espressioni && (
+    <FeatureSection kicker={page.espressioni.title} body={page.espressioni.body} titleFont="display" />
+  )}
+
+  {page.map && <VineyardMap image={page.map.image} plots={page.map.plots} />}
+
+  {page.estates && <OtherEstates items={page.estates} />}
+
+  <Footer footer={site.footer} />
+</Base>

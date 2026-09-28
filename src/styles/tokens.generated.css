@@ -1,0 +1,79 @@
+/* ⚠️ FILE GENERATO da scripts/build-tokens.mjs — non modificare a mano.
+   La fonte di verità sono i file in /design/*.md */
+
+:root {
+  --color-brand-teal: #0d555d;
+  --color-brand-teal-dark: #0e565d;
+  --color-brand-teal-soft: #457578;
+  --color-brand-footer: #06555e;
+  --color-accent-bordeaux: #993441;
+  --color-accent-gold: #eab652;
+  --color-accent-tobacco: #d19a73;
+  --color-accent-navy: #122a4b;
+  --color-neutral-ink: #555657;
+  --color-neutral-black: #000000;
+  --color-neutral-white: #ffffff;
+  --color-neutral-cream: #f4f1e8;
+  --color-neutral-line: #dddddd;
+  --container-max: 1180px;
+  --container-gutter: 6%;
+  --section-py: var(--space-2xl);
+  --section-gap: var(--space-lg);
+  --section-maxtext: 720px;
+  --radius-button: 2px;
+  --dur-quick: 200ms;
+  --dur-base: 300ms;
+  --ease-base: cubic-bezier(0.4, 0, 0.2, 1);
+  --space-2xs: 8px;
+  --space-xs: 12px;
+  --space-sm: 16px;
+  --space-md: 24px;
+  --space-lg: 40px;
+  --space-xl: 64px;
+  --space-2xl: 80px;
+  --space-3xl: 112px;
+  --edge-min: 40px;
+  --typekit: iug5ckz;
+  --font-display: "lust-didone", Georgia, serif;
+  --font-heading: "Libre Baskerville", Georgia, serif;
+  --font-body: "proxima-nova", system-ui, sans-serif;
+  --fs-hero: 26px;
+  --fs-h1: 61px;
+  --fs-h2: 40px;
+  --fs-kicker: 13px;
+  --fs-body: 18px;
+  --fs-small: 14px;
+  --lh-h1: 70px;
+  --lh-body: 1.7;
+  --ls-h1: -1px;
+  --ls-hero: 2px;
+  --ls-kicker: 3px;
+  --bp-tablet: 991px;
+  --bp-mobile: 767px;
+  --bp-small: 479px;
+}
+
+@media (max-width: 991px) {
+  :root {
+    --fs-h1: 48px;
+    --lh-h1: 56px;
+    --section-py: 64px;
+  }
+}
+
+@media (max-width: 767px) {
+  :root {
+    --fs-h1: 40px;
+    --lh-h1: 46px;
+    --section-py: 48px;
+  }
+}
+
+@media (max-width: 479px) {
+  :root {
+    --fs-h1: 32px;
+    --lh-h1: 38px;
+    --fs-hero: 20px;
+    --section-py: 40px;
+  }
+}

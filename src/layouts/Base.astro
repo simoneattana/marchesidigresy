@@ -1,0 +1,50 @@
+---
+import matter from 'gray-matter';
+import { readFileSync } from 'node:fs';
+import CookieBanner from '../components/CookieBanner.astro';
+import { canonicalPath, localizedUrl, hasEn } from '../lib/i18n.js';
+import '../styles/tokens.generated.css';
+import '../styles/fonts.css';   // Libre Baskerville self-hosted (niente Google)
+import '../styles/global.css';
+
+interface Props { title?: string; description?: string; lang?: string; }
+const { title = 'Marchesi di Grésy', description = '', lang = 'it' } = Astro.props;
+
+// Le famiglie da caricare vivono in design/typography.md — il design system decide anche i font.
+const typo = matter(readFileSync(new URL('../../design/typography.md', import.meta.url), 'utf8')).data;
+const families = (typo.google ?? []).map((f) => `family=${f}`).join('&');
+const fontsHref = `https://fonts.googleapis.com/css2?${families}&display=swap`;
+const typekitId = typo.typekit; // kit Adobe Fonts (lust-didone + proxima-nova)
+
+// SEO/i18n: canonical + hreflang. Emette gli alternate solo se la pagina ha la versione EN.
+const canonical = canonicalPath(Astro.url.pathname);
+const base = Astro.site ?? new URL('http://localhost:4321');
+const abs = (u) => new URL(u, base).href;
+const selfUrl = abs(localizedUrl(canonical, lang));
+const showAlt = hasEn(canonical);
+---
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    {description && <meta name="description" content={description} />}
+    <link rel="canonical" href={selfUrl} />
+    {showAlt && <link rel="alternate" hreflang="it" href={abs(localizedUrl(canonical, 'it'))} />}
+    {showAlt && <link rel="alternate" hreflang="en" href={abs(localizedUrl(canonical, 'en'))} />}
+    {showAlt && <link rel="alternate" hreflang="x-default" href={abs(localizedUrl(canonical, 'it'))} />}
+    <link rel="icon" type="image/png" href="/assets/img/favicon-256.png" />
+    <link rel="preload" href="/assets/fonts/libre-baskerville-400-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/assets/fonts/libre-baskerville-700-latin.woff2" as="font" type="font/woff2" crossorigin />
+    {families && <link rel="preconnect" href="https://fonts.googleapis.com" />}
+    {families && <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />}
+    {families && <link rel="stylesheet" href={fontsHref} />}
+    {typekitId && <link rel="preconnect" href="https://use.typekit.net" crossorigin />}
+    {typekitId && <link rel="stylesheet" href={`https://use.typekit.net/${typekitId}.css`} />}
+  </head>
+  <body>
+    <slot />
+    <CookieBanner lang={lang} />
+  </body>
+</html>

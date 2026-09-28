@@ -1,0 +1,20 @@
+---
+import { langFromPath, localizeHref } from '../lib/i18n.js';
+interface Props {
+  id?: string;
+  name: string;
+  image: string;
+  text: string;
+  href: string;
+}
+const { id, name, image, text, href } = Astro.props;
+const localHref = localizeHref(href, langFromPath(Astro.url.pathname));
+---
+<section class="estate" id={id}>
+  <div class="wrap">
+    <img class="estate__img" src={image} alt={`Illustrazione ${name}`} loading="lazy" />
+    <h3 class="estate__title">{name}</h3>
+    <div class="prose"><p>{text}</p></div>
+    <a class="readmore" href={localHref}>Read More</a>
+  </div>
+</section>

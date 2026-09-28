@@ -1,0 +1,9 @@
+---
+import WineDetail from '../../../layouts/WineDetail.astro';
+import { wines } from '../../../data/wines.js';
+export function getStaticPaths() {
+  return Object.keys(wines).map((slug) => ({ params: { slug } }));
+}
+const { slug } = Astro.params;
+---
+<WineDetail slug={slug} lang="en" />

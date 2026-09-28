@@ -1,0 +1,24 @@
+---
+// Le Tenute EN (/en/letenute). Stessa struttura della pagina IT, contenuti EN.
+import Base from '../../layouts/Base.astro';
+import Hero from '../../components/Hero.astro';
+import Footer from '../../components/Footer.astro';
+import EstateCard from '../../components/EstateCard.astro';
+import { loadContent, loadSite } from '../../lib/content.js';
+
+const site = loadSite('en');
+const page = loadContent('letenute', 'en');
+---
+<Base title={page.title} description={page.intro} lang="en">
+  <Hero hero={page.hero} menu={site.menu} title={page.hero.title} />
+
+  <section class="intro">
+    <div class="wrap prose"><p>{page.intro}</p></div>
+  </section>
+
+  {page.estates.map((e) => (
+    <EstateCard id={e.id} name={e.name} image={e.image} text={e.text} href={e.href} />
+  ))}
+
+  <Footer footer={site.footer} />
+</Base>

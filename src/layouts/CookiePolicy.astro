@@ -1,0 +1,41 @@
+---
+// Layout COOKIE POLICY (IT + EN): header compatto + testo legale. Contenuto in content[/en]/cookiepolicy.md.
+import Base from './Base.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import { loadContent, loadSite } from '../lib/content.js';
+
+interface Props { lang?: string }
+const { lang = 'it' } = Astro.props;
+const site = loadSite(lang);
+const page = loadContent('cookiepolicy', lang);
+const CREST = '/assets/img/crest.png';
+const NAME = 'Tenute Cisa Asinari dei Marchesi di Grésy';
+const updatedLabel = lang === 'en' ? 'Last updated:' : 'Ultimo aggiornamento:';
+---
+<Base title={page.title} description={page.intro} lang={lang}>
+  <header class="legal-hero">
+    <Nav items={site.menu} logo={CREST} name={NAME} />
+    <img class="legal-hero__crest" src={CREST} alt={NAME} width="440" height="276" />
+    <h1 class="legal-hero__title">{page.heading}</h1>
+  </header>
+
+  <main class="legal">
+    <div class="legal__wrap">
+      {page.intro && <p class="legal__intro">{page.intro}</p>}
+
+      {(page.sections ?? []).map((s) => (
+        <section class="legal__section">
+          <h2>{s.title}</h2>
+          {(s.body ?? []).map((p) => <p set:html={p} />)}
+          {s.list && <ul>{s.list.map((li) => <li set:html={li} />)}</ul>}
+          {(s.body_after ?? []).map((p) => <p set:html={p} />)}
+        </section>
+      ))}
+
+      {page.updated && <p class="legal__updated">{updatedLabel} {page.updated}</p>}
+    </div>
+  </main>
+
+  <Footer footer={site.footer} />
+</Base>

@@ -1,0 +1,29 @@
+---
+import Nav from './Nav.astro';
+interface Props {
+  hero: { crest: string; name: string; video?: string; poster: string };
+  menu?: { label: string; href: string }[];
+  title?: string;    // titolo pagina (pagine interne) — assente nella home
+  subtitle?: string; // sottotitolo opzionale sotto il titolo
+}
+const { hero, menu = [], title, subtitle } = Astro.props;
+---
+<header class:list={['hero', title && 'hero--page']}>
+  {hero.video ? (
+    <video class="hero__media" autoplay muted loop playsinline poster={hero.poster}>
+      <source src={hero.video} type="video/mp4" />
+    </video>
+  ) : (
+    <img class="hero__media" src={hero.poster} alt="" />
+  )}
+
+  <Nav items={menu} logo={hero.crest} name={hero.name} />
+
+  <img class="hero__crest" src={hero.crest} alt={hero.name} width="440" height="276" />
+  {title && (
+    <div class="hero__titlewrap">
+      <h1 class="hero__title">{title}</h1>
+      {subtitle && <p class="hero__subtitle">{subtitle}</p>}
+    </div>
+  )}
+</header>

@@ -1,0 +1,21 @@
+---
+import Base from '../layouts/Base.astro';
+import Hero from '../components/Hero.astro';
+import Footer from '../components/Footer.astro';
+import WineCatalog from '../components/WineCatalog.astro';
+import { loadContent, loadSite } from '../lib/content.js';
+
+const site = loadSite();
+const page = loadContent('i-vini');
+---
+<Base title={page.title} description={page.intro} lang={site.lang}>
+  <Hero hero={page.hero} menu={site.menu} title={page.hero.title} />
+
+  <section class="intro">
+    <div class="wrap prose"><p>{page.intro}</p></div>
+  </section>
+
+  <WineCatalog categories={page.categories} />
+
+  <Footer footer={site.footer} />
+</Base>

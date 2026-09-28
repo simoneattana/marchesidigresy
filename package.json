@@ -1,0 +1,20 @@
+{
+  "name": "marchesidigresy",
+  "version": "0.0.1",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "tokens": "node scripts/build-tokens.mjs",
+    "predev": "node scripts/build-tokens.mjs",
+    "dev": "astro dev",
+    "prebuild": "node scripts/build-tokens.mjs",
+    "build": "astro build",
+    "preview": "astro preview"
+  },
+  "dependencies": {
+    "astro": "^5.0.0"
+  },
+  "devDependencies": {
+    "gray-matter": "^4.0.3"
+  }
+}

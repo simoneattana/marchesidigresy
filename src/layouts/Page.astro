@@ -1,0 +1,29 @@
+---
+// Template per le PAGINE INTERNE: hero con titolo + intro + sezioni + footer.
+// Ogni pagina interna è composta da 3 righe (vedi src/pages/sostenibilita.astro).
+import Base from './Base.astro';
+import Hero from '../components/Hero.astro';
+import FeatureSection from '../components/FeatureSection.astro';
+import Footer from '../components/Footer.astro';
+import { loadContent, loadSite } from '../lib/content.js';
+
+interface Props { slug: string; lang?: string }
+const { slug, lang = 'it' } = Astro.props;
+const site = loadSite(lang);
+const page = loadContent(slug, lang);
+---
+<Base title={page.title} description={page.intro} lang={lang}>
+  <Hero hero={page.hero} menu={site.menu} title={page.hero?.title} />
+
+  {page.intro && (
+    <section class="intro">
+      <div class="wrap prose"><p>{page.intro}</p></div>
+    </section>
+  )}
+
+  {(page.sections ?? []).map((s) => (
+    <FeatureSection kicker={s.kicker} image={s.image} imageAfter={s.imageAfter} body={s.body} cta={s.cta} titleFont="display" />
+  ))}
+
+  <Footer footer={site.footer} />
+</Base>

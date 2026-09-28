@@ -1,0 +1,6 @@
+# Redirect 301 legacy — Cloudflare Pages.
+# Mantiene validi gli URL indicizzati da Google dopo il porting da Webflow.
+/about          /             301
+/agriturismo    /wine-resort  301
+/diary          /             301
+/news/*         /             301

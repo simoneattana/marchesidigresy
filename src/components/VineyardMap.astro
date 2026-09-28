@@ -1,0 +1,71 @@
+---
+import { langFromPath } from '../lib/i18n.js';
+interface Plot {
+  name: string; ha: string; esposizione: string; altitudine: string;
+  vini: string[]; x: number; y: number;
+}
+interface Props { image: string; plots: Plot[] }
+const { image, plots } = Astro.props;
+// Etichette della card localizzate (come in produzione). I dati particella restano invariati.
+const L = langFromPath(Astro.url.pathname) === 'en'
+  ? { ext: 'Extension:', extList: 'Extension:', exp: 'Exposition:', alt: 'Average altitude:', altList: 'Altitude:', wine: 'Wine produced:', mapAlt: 'Vineyard map' }
+  : { ext: 'Estensione Vigneto:', extList: 'Estensione:', exp: 'Esposizione:', alt: 'Altitudine media:', altList: 'Altitudine:', wine: 'Vino prodotto:', mapAlt: 'Mappa dei vigneti' };
+---
+<section class="vmap" id="mappa">
+  <div class="wrap">
+    <div class="vmap__stage">
+      <img class="vmap__img" src={image} alt={L.mapAlt} />
+      {plots.map((p, i) => (
+        <button
+          class="vmap__dot"
+          style={`left:${p.x}%;top:${p.y}%`}
+          data-plot={i}
+          aria-label={p.name}
+        ></button>
+      ))}
+      {plots.map((p, i) => (
+        <div
+          class:list={['vmap__card', p.y < 45 && 'vmap__card--below']}
+          data-plot={i}
+          style={`left:${p.x}%;top:${p.y}%`}
+          role="tooltip"
+        >
+          <strong>{p.name}</strong>
+          <span>{L.ext} {p.ha}</span>
+          <span>{L.exp} {p.esposizione}</span>
+          <span>{L.alt} {p.altitudine}</span>
+          <span class="vmap__vino">{L.wine}</span>
+          {p.vini.map((v) => <span>{v}</span>)}
+        </div>
+      ))}
+    </div>
+
+    <ul class="vmap__list">
+      {plots.map((p) => (
+        <li class="vmap__li">
+          <strong>{p.name}</strong>
+          <span>{L.extList} {p.ha} · {L.exp} {p.esposizione} · {L.altList} {p.altitudine}</span>
+          {p.vini.map((v) => <span class="vmap__vino">{v}</span>)}
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<script>
+  const stage = document.querySelector('.vmap__stage');
+  if (stage) {
+    const dots = stage.querySelectorAll('.vmap__dot');
+    const cards = stage.querySelectorAll('.vmap__card');
+    const show = (i) => {
+      cards.forEach((c) => c.classList.toggle('is-open', c.dataset.plot === String(i)));
+      dots.forEach((d) => d.classList.toggle('is-active', d.dataset.plot === String(i)));
+    };
+    dots.forEach((d) => {
+      d.addEventListener('click', (e) => { e.stopPropagation(); show(d.dataset.plot); });
+      d.addEventListener('mouseenter', () => show(d.dataset.plot));
+    });
+    stage.addEventListener('mouseleave', () => show(-1));
+    document.addEventListener('click', () => show(-1));
+  }
+</script>

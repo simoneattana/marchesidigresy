@@ -1,0 +1,21 @@
+---
+import Base from '../layouts/Base.astro';
+import Hero from '../components/Hero.astro';
+import FeatureSection from '../components/FeatureSection.astro';
+import Footer from '../components/Footer.astro';
+import { loadContent, loadSite } from '../lib/content.js';
+
+const site = loadSite();
+const home = loadContent('home');
+---
+<Base title={home.title} description={home.intro} lang={site.lang}>
+  <Hero hero={home.hero} menu={site.menu} />
+
+  <section class="intro">
+    <div class="wrap prose"><p>{home.intro}</p></div>
+  </section>
+
+  {home.sections.map((s) => <FeatureSection {...s} />)}
+
+  <Footer footer={site.footer} />
+</Base>

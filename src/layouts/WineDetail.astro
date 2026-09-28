@@ -1,0 +1,57 @@
+---
+// Scheda vino /vini/<slug> (IT) e /en/vini/<slug> (EN). Dati in src/data/wines.js.
+import Base from './Base.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import { loadSite } from '../lib/content.js';
+import { wines } from '../data/wines.js';
+
+interface Props { slug: string; lang?: string }
+const { slug, lang = 'it' } = Astro.props;
+const site = loadSite(lang);
+const w = wines[slug];
+const CREST = '/assets/img/crest.png';
+const NAME = 'Tenute Cisa Asinari dei Marchesi di Grésy';
+const catUrl = lang === 'en' ? '/en/i-vini' : '/i-vini';
+const t = lang === 'en'
+  ? { vintages: 'Vintages', tech: 'Download the technical sheet', hires: 'Download high resolution image', back: 'All wines' }
+  : { vintages: 'Annate', tech: 'Scarica la scheda tecnica', hires: "Scarica l'immagine ad alta risoluzione", back: 'Tutti i vini' };
+---
+<Base title={w.name} lang={lang}>
+  <header class="winehero">
+    <Nav items={site.menu} logo={CREST} name={NAME} />
+    <img class="winehero__crest" src={CREST} alt={NAME} width="440" height="276" />
+  </header>
+
+  <main class="wine">
+    <div class="wrap wine__grid">
+      <div class="wine__media">
+        {w.bottle && <img class="wine__bottle" src={w.bottle} alt={w.name} />}
+      </div>
+
+      <div class="wine__info">
+        <h1 class="wine__title">{w.name}</h1>
+
+        {w.vintages && w.vintages.length > 0 && (
+          <div class="wine__vintages">
+            <span class="wine__eyebrow">{t.vintages}</span>
+            <div class="wine__vint-list">
+              {w.vintages.map((v) => (
+                <a class="wine__vint" href={v.pdf} target="_blank" rel="noopener">{v.label}</a>
+              ))}
+            </div>
+          </div>
+        )}
+
+        <div class="wine__downloads">
+          {w.tech && <a class="btn" href={w.tech} target="_blank" rel="noopener">{t.tech}</a>}
+          {w.hires && <a class="wine__dl" href={w.hires} target="_blank" rel="noopener">{t.hires}</a>}
+        </div>
+
+        <a class="readmore wine__back" href={catUrl}>&larr; {t.back}</a>
+      </div>
+    </div>
+  </main>
+
+  <Footer footer={site.footer} />
+</Base>

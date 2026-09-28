@@ -1,0 +1,40 @@
+---
+// Banner cookie self-hosted (sostituisce Iubenda). Scelta accetta/rifiuta salvata in localStorage.
+// Il sito non usa cookie di profilazione: il banner informa e registra la preferenza,
+// esponendo window.__mdgConsent come hook per eventuali script futuri.
+import { UI, localizedUrl, hasEn } from '../lib/i18n.js';
+interface Props { lang?: string }
+const { lang = 'it' } = Astro.props;
+const t = UI[lang] ?? UI.it;
+// EN policy solo se pronta, altrimenti fallback alla policy IT.
+const policyHref = hasEn('/cookiepolicy') ? localizedUrl('/cookiepolicy', lang) : '/cookiepolicy/';
+---
+<div class="cookiebar" id="cookiebar" data-state="hidden" aria-label="Cookie">
+  <p class="cookiebar__text">
+    {t.cookie_text}
+    <a href={policyHref}>{t.cookie_policy}</a>
+  </p>
+  <div class="cookiebar__actions">
+    <button type="button" class="cookiebar__btn cookiebar__btn--ghost" id="cookieReject">{t.cookie_reject}</button>
+    <button type="button" class="cookiebar__btn" id="cookieAccept">{t.cookie_accept}</button>
+  </div>
+</div>
+
+<script>
+  (function () {
+    const KEY = 'mdg-cookie-consent';
+    const bar = document.getElementById('cookiebar');
+    if (!bar) return;
+    let saved = null;
+    try { saved = localStorage.getItem(KEY); } catch (e) {}
+    if (saved) { window.__mdgConsent = saved; }
+    else { bar.setAttribute('data-state', 'visible'); }
+    const choose = (v) => {
+      try { localStorage.setItem(KEY, v); } catch (e) {}
+      window.__mdgConsent = v;
+      bar.setAttribute('data-state', 'hidden');
+    };
+    document.getElementById('cookieAccept')?.addEventListener('click', () => choose('accepted'));
+    document.getElementById('cookieReject')?.addEventListener('click', () => choose('rejected'));
+  })();
+</script>

@@ -1,0 +1,11 @@
+# Dipendenze e build
+node_modules/
+dist/
+.astro/
+
+# Artefatti locali
+.gstack/
+.DS_Store
+*.log
+
+# Il mirror del vecchio sito Webflow vive in una cartella sorella, non qui.

@@ -1,0 +1,128 @@
+---
+// Layout CONTATTI (IT + EN): hero immagine + due schede + modulo. Contenuto in content[/en]/contatti.md.
+import Base from './Base.astro';
+import Hero from '../components/Hero.astro';
+import Footer from '../components/Footer.astro';
+import { loadContent, loadSite } from '../lib/content.js';
+import { countries } from '../lib/countries.js';
+import { localizeHref } from '../lib/i18n.js';
+
+interface Props { lang?: string }
+const { lang = 'it' } = Astro.props;
+const site = loadSite(lang);
+const page = loadContent('contatti', lang);
+const { cards = [], form } = page;
+const telLabel = lang === 'en' ? 'Phone' : 'Telefono';
+---
+<Base title={page.title} lang={lang}>
+  <Hero hero={page.hero} menu={site.menu} title={page.hero.title} />
+
+  {/* ---------- Due schede contatto ---------- */}
+  <section class="ct-cards">
+    <div class="wrap ct-cards__grid">
+      {cards.map((c) => (
+        <article class="ct-card">
+          <img class="ct-card__img" src={c.image} alt={c.heading} loading="lazy" />
+          <h2 class="ct-card__title">{c.heading}</h2>
+          <p class="ct-card__org">{c.org}</p>
+          <p class="ct-card__addr">{c.address}</p>
+          <p class="ct-card__line">{telLabel} <a href={c.tel_href}>{c.tel}</a></p>
+          {c.website && (
+            <p class="ct-card__line"><a href={c.website_href} target="_blank" rel="noopener">{c.website}</a></p>
+          )}
+          <p class="ct-card__line"><a href={c.email_href}>{c.email}</a></p>
+          <div class="ct-card__btns">
+            {c.buttons.map((b) => (
+              <a
+                class:list={['ct-btn', b.style === 'outline' && 'ct-btn--outline']}
+                href={b.href}
+                target="_blank"
+                rel="noopener"
+              >{b.label}</a>
+            ))}
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  {/* ---------- Modulo contatti ---------- */}
+  <section class="ct-form" id="scrivi">
+    <div class="wrap">
+      <form class="ct-form__form" data-endpoint={form.endpoint} novalidate>
+        {form.fields.map((f) => (
+          <div class:list={['ct-field', f.full && 'ct-field--full']}>
+            {f.type === 'textarea' ? (
+              <textarea id={`ct-${f.name}`} name={f.name} class="ct-field__input ct-field__input--area" placeholder={f.placeholder} aria-label={f.label} required={f.required} rows="6"></textarea>
+            ) : f.type === 'select' ? (
+              <select id={`ct-${f.name}`} name={f.name} class="ct-field__input ct-field__select" aria-label={f.label} required={f.required}>
+                <option value="">{f.placeholder}</option>
+                {countries.map((c) => <option value={c}>{c}</option>)}
+              </select>
+            ) : (
+              <input id={`ct-${f.name}`} name={f.name} type={f.type} class="ct-field__input" placeholder={f.placeholder} aria-label={f.label} required={f.required} />
+            )}
+          </div>
+        ))}
+
+        {/* Honeypot anti-spam: nascosto agli umani, compilato dai bot */}
+        <input type="text" name="_gotcha" class="ct-hp" tabindex="-1" autocomplete="off" aria-hidden="true" />
+
+        <label class="ct-consent">
+          <input type="checkbox" name="consent" required />
+          <span>{form.consent_pre}<a href={localizeHref(form.consent_href, lang)}>{form.consent_link}</a></span>
+        </label>
+
+        <button type="submit" class="ct-submit">{form.submit}</button>
+
+        <p class="ct-msg ct-msg--ok" role="status" hidden>{form.success}</p>
+        <p class="ct-msg ct-msg--err" role="alert" hidden>{form.error}</p>
+      </form>
+    </div>
+  </section>
+
+  <Footer footer={site.footer} />
+</Base>
+
+<script>
+  // Progressive enhancement: invio via fetch, honeypot, messaggi ok/errore.
+  // L'endpoint arriva da content[/en]/contatti.md (form.endpoint). Se vuoto, invio non collegato.
+  const form = document.querySelector<HTMLFormElement>('.ct-form__form');
+  if (form) {
+    const okMsg = form.querySelector<HTMLElement>('.ct-msg--ok');
+    const errMsg = form.querySelector<HTMLElement>('.ct-msg--err');
+    const endpoint = form.dataset.endpoint || '';
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      okMsg?.setAttribute('hidden', '');
+      errMsg?.setAttribute('hidden', '');
+
+      if (!form.checkValidity()) { form.reportValidity(); return; }
+
+      const hp = form.querySelector<HTMLInputElement>('input[name="_gotcha"]');
+      if (hp && hp.value) { okMsg?.removeAttribute('hidden'); form.reset(); return; }
+
+      if (!endpoint) {
+        console.warn('[contatti] endpoint non configurato: invio in attesa della scelta backend.');
+        return;
+      }
+
+      const btn = form.querySelector<HTMLButtonElement>('.ct-submit');
+      btn && (btn.disabled = true);
+      try {
+        const res = await fetch(endpoint, {
+          method: 'POST',
+          headers: { Accept: 'application/json' },
+          body: new FormData(form),
+        });
+        if (res.ok) { okMsg?.removeAttribute('hidden'); form.reset(); }
+        else { errMsg?.removeAttribute('hidden'); }
+      } catch {
+        errMsg?.removeAttribute('hidden');
+      } finally {
+        btn && (btn.disabled = false);
+      }
+    });
+  }
+</script>

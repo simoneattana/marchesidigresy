@@ -1,0 +1,29 @@
+---
+import { langFromPath, localizeHref } from '../lib/i18n.js';
+interface Props {
+  id?: string;
+  kicker: string;
+  image?: string;
+  imageAfter?: number;              // immagine dopo N paragrafi (0 = prima del testo)
+  body: string | string[];
+  cta?: { label: string; href: string };
+  titleFont?: 'heading' | 'display';
+}
+const { id, kicker, image, imageAfter = 0, body, cta, titleFont = 'heading' } = Astro.props;
+const ctaHref = cta ? localizeHref(cta.href, langFromPath(Astro.url.pathname)) : undefined;
+const paras = Array.isArray(body) ? body : [body];
+const before = paras.slice(0, imageAfter);
+const after = paras.slice(imageAfter);
+const sectionId = id || kicker.toLowerCase().replace(/\s+/g, '-');
+---
+<section class="section" id={sectionId}>
+  <div class="wrap">
+    <h2 class:list={['section__title', titleFont === 'display' && 'section__title--display']}>{kicker}</h2>
+
+    {before.length > 0 && <div class="prose">{before.map((p) => <p>{p}</p>)}</div>}
+    {image && <img class="feature__img" src={image} alt={kicker} loading="lazy" />}
+    {after.length > 0 && <div class="prose">{after.map((p) => <p>{p}</p>)}</div>}
+
+    {cta?.label && <a class="btn" href={ctaHref}>{cta.label}</a>}
+  </div>
+</section>

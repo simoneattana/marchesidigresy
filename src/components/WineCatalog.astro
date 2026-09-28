@@ -1,0 +1,32 @@
+---
+import { wines } from '../data/wines.js';
+import { langFromPath, localizeHref } from '../lib/i18n.js';
+interface Wine { name: string; image: string }
+interface Category { id?: string; title: string; wines: Wine[] }
+interface Props { categories: Category[] }
+const { categories } = Astro.props;
+const lang = langFromPath(Astro.url.pathname);
+// Ogni bottiglia → scheda vino /vini/<slug>. Mappa immagine bottiglia → slug; le grappe → /vini/grappe.
+const imgToSlug = Object.fromEntries(
+  Object.entries(wines).filter(([, w]) => w.bottle).map(([slug, w]) => [w.bottle, slug])
+);
+const slugFor = (w, catId) => imgToSlug[w.image] || (catId === 'grappe' ? 'grappe' : null);
+---
+{categories.map((c) => (
+  <section class="wcat" id={c.id}>
+    <h2 class="wcat__title">{c.title}</h2>
+    <div class="wrap wcat__row">
+      {c.wines.map((w) => {
+        const slug = slugFor(w, c.id);
+        const Tag = slug ? 'a' : 'div';
+        const extra = slug ? { href: localizeHref(`/vini/${slug}`, lang) } : {};
+        return (
+          <Tag class:list={['wbottle', slug && 'wbottle--link']} {...extra}>
+            <img class="wbottle__img" src={w.image} alt={w.name} loading="lazy" />
+            <span class="wbottle__name">{w.name}</span>
+          </Tag>
+        );
+      })}
+    </div>
+  </section>
+))}

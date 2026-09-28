@@ -1,0 +1,72 @@
+---
+import { langFromPath, localizeHref } from '../lib/i18n.js';
+interface Group { title: string; href: string; items?: { label: string; href: string }[] }
+interface Props {
+  footer: {
+    nav_columns: { groups: Group[] }[];
+    ragione: string; indirizzo: string; tel: string; fax: string; piva: string;
+    campaign: string; crediti: string; credits_href?: string; illustrazioni: string;
+    social: { label: string; href: string; icon: string }[];
+    loghi: string[]; feasr: string;
+  };
+}
+const { footer } = Astro.props;
+const curLang = langFromPath(Astro.url.pathname);  // per localizzare gli href interni in /en/
+---
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer__cols">
+      {footer.nav_columns.map((col) => (
+        <div class="footer__col">
+          {col.groups.map((g) => (
+            <div class="footer__group">
+              <a class="footer__title" href={localizeHref(g.href, curLang)}>{g.title}</a>
+              {g.items && (
+                <ul class="footer__sub">
+                  {g.items.map((it) => <li><a href={localizeHref(it.href, curLang)}>{it.label}</a></li>)}
+                </ul>
+              )}
+            </div>
+          ))}
+        </div>
+      ))}
+    </div>
+
+    <div class="footer__lower">
+      <div class="footer__addr">
+        <div class="footer__info">
+          <strong>{footer.ragione}</strong><br />
+          {footer.indirizzo}<br />
+          Telefono {footer.tel}<br />
+          Fax {footer.fax}<br />
+          {footer.piva}
+        </div>
+        <div class="footer__eu">
+          <img src="/assets/img/flag-eu.png" alt="Unione Europea" width="40" height="27" />
+          <span>{footer.campaign}</span>
+        </div>
+      </div>
+
+      <div class="footer__right">
+        <div class="footer__social">
+          {footer.social.map((s) => (
+            <a href={s.href} aria-label={s.label} target="_blank" rel="noopener">
+              <img src={s.icon} alt={s.label} />
+            </a>
+          ))}
+        </div>
+        <p class="footer__credit">
+          <a href={footer.credits_href} target="_blank" rel="noopener">{footer.crediti}</a><br />
+          {footer.illustrazioni}
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer__badges">
+    <div class="footer__badges-row">
+      {footer.loghi.map((l) => <img src={l} alt="" loading="lazy" />)}
+    </div>
+    <p class="footer__feasr">{footer.feasr}</p>
+  </div>
+</footer>

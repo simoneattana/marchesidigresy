@@ -1,0 +1,18 @@
+---
+import { langFromPath, localizeHref } from '../lib/i18n.js';
+interface Item { name: string; text: string; href: string }
+interface Props { items: Item[] }
+const { items } = Astro.props;
+const lang = langFromPath(Astro.url.pathname);
+---
+<section class="otherest">
+  <div class="wrap otherest__grid">
+    {items.map((e) => (
+      <div class="otherest__item">
+        <h3 class="otherest__title">{e.name}</h3>
+        <div class="prose"><p>{e.text}</p></div>
+        <a class="readmore" href={localizeHref(e.href, lang)}>Read More</a>
+      </div>
+    ))}
+  </div>
+</section>

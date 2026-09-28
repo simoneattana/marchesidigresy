@@ -1,0 +1,388 @@
+/* Stili base + componenti. Nessun valore "magico": tutto passa dai token (var --*)
+   generati da /design/*.md. Per cambiare il look, si modificano i .md, non questo file. */
+
+*, *::before, *::after { box-sizing: border-box; }
+* { margin: 0; }
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  background: var(--color-neutral-cream);
+  color: var(--color-neutral-ink);
+  font-family: var(--font-body);
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+img, video { display: block; max-width: 100%; }
+a { color: inherit; }
+
+.wrap {
+  max-width: var(--container-max);
+  margin-inline: auto;
+  padding-inline: var(--container-gutter);
+}
+
+/* ---------- Topbar / Menu ---------- */
+.topbar {
+  position: absolute; inset: 0 0 auto 0; z-index: 20;
+  display: flex; align-items: center; justify-content: flex-end;
+  padding: 26px clamp(20px, 6%, 80px);
+}
+.menu-btn {
+  display: inline-flex; align-items: center; gap: 12px;
+  background: none; border: 0; cursor: pointer;
+  color: #fff; font-family: var(--font-body);
+  font-size: 15px; letter-spacing: 1px; text-transform: none;
+}
+.menu-btn__lines { display: inline-block; width: 26px; }
+.menu-btn__lines span { display: block; height: 2px; background: #fff; margin: 5px 0; transition: transform var(--dur-base) var(--ease-base); }
+
+/* Overlay menu — replica del popup originale */
+.overlay {
+  position: fixed; inset: 0; z-index: 40;
+  background: rgba(76, 76, 76, 0.95); color: #fff;
+  opacity: 0; visibility: hidden;
+  transition: opacity var(--dur-base) var(--ease-base);
+}
+.overlay[data-open="true"] { opacity: 1; visibility: visible; }
+.overlay__bar {
+  position: absolute; top: 0; left: 0; right: 0; z-index: 2;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 24px clamp(20px, 6%, 80px);
+}
+.overlay__lang { display: flex; gap: 14px; font-family: var(--font-body); font-size: 16px; letter-spacing: 1px; }
+.overlay__lang a { text-decoration: none; color: #fff; opacity: .5; transition: opacity var(--dur-base) var(--ease-base); }
+.overlay__lang a.is-active, .overlay__lang a:hover { opacity: 1; }
+.overlay__logo { position: absolute; left: 50%; top: 16px; transform: translateX(-50%); width: 150px; height: auto; }
+.overlay__nav {
+  height: 100%; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; gap: 6px; text-align: center;
+}
+.overlay__nav a {
+  font-family: var(--font-display); font-weight: 400;
+  font-size: clamp(32px, 5vw, 60px); line-height: 1.22; color: #fff;
+  text-decoration: none; transition: color var(--dur-base) var(--ease-base);
+}
+.overlay__nav a:hover { color: var(--color-accent-gold); }
+.menu-btn--close .menu-btn__x { position: relative; width: 18px; height: 18px; display: inline-block; }
+.menu-btn--close .menu-btn__x::before, .menu-btn--close .menu-btn__x::after {
+  content: ""; position: absolute; top: 50%; left: 0; width: 100%; height: 2px; background: #fff;
+}
+.menu-btn--close .menu-btn__x::before { transform: rotate(45deg); }
+.menu-btn--close .menu-btn__x::after { transform: rotate(-45deg); }
+
+/* ---------- Hero ---------- */
+.hero {
+  position: relative; min-height: 100svh; overflow: hidden;
+  display: flex; flex-direction: column; align-items: center;
+  color: #fff; text-align: center;
+}
+.hero__media { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0; }
+.hero::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,.30), rgba(0,0,0,.12) 40%, rgba(0,0,0,.34)); z-index: 1; }
+.hero__crest { position: relative; z-index: 2; margin-top: var(--space-lg); width: clamp(200px, 20vw, 280px); height: auto; filter: drop-shadow(0 2px 14px rgba(0,0,0,.5)); }
+.hero__titlewrap { position: relative; z-index: 2; margin: auto 0; padding-bottom: 8vh; }
+.hero__title {
+  font-family: var(--font-heading); font-weight: 700;
+  font-size: var(--fs-h1); line-height: var(--lh-h1); letter-spacing: var(--ls-h1);
+  color: #fff; text-shadow: 0 2px 16px rgba(0,0,0,.5);
+}
+.hero__subtitle {
+  margin-top: var(--space-xs); font-family: var(--font-body);
+  font-size: 15px; letter-spacing: 1px; color: #fff; text-shadow: 0 1px 10px rgba(0,0,0,.5);
+}
+/* Variante pagina interna: hero NON full-screen (600px desktop / 350px sotto 991px, come produzione) */
+.hero--page { min-height: 0; height: 600px; }
+.hero--page .hero__crest { width: clamp(150px, 15vw, 200px); }
+.hero--page .hero__titlewrap { margin: auto 0 0; padding-bottom: var(--space-xl); }  /* titolo in basso */
+@media (max-width: 991px) { .hero--page { height: 350px; } }
+
+/* ---------- Sezioni contenuto ---------- */
+.section { padding-block: var(--section-py); text-align: center; }
+.section__title {
+  font-family: var(--font-heading); font-weight: 700;
+  font-size: var(--fs-h1); line-height: var(--lh-h1); letter-spacing: var(--ls-h1);
+  color: var(--color-brand-teal); margin-bottom: var(--space-lg);
+}
+.section__title--display { font-family: var(--font-display); }  /* lust-didone — titoli sezione pagine interne */
+.prose { max-width: var(--section-maxtext); margin-inline: auto; }
+.prose p + p { margin-top: 1.1em; }
+.feature__img { width: 100%; margin: 0 auto var(--space-lg); }
+.prose + .feature__img { margin-top: var(--space-lg); }  /* stacco quando l'immagine segue il testo */
+.intro { text-align: center; padding-block: 72px 0; }
+.intro .prose { font-size: 20px; }
+
+/* ---------- Bottone ---------- */
+.btn {
+  display: inline-block; margin-top: 38px;
+  background: var(--color-brand-teal); color: #fff;
+  padding: 15px 32px; border-radius: var(--radius-button);
+  font-size: var(--fs-small); letter-spacing: 1px; text-decoration: none;
+  transition: background var(--dur-base) var(--ease-base);
+}
+.btn:hover { background: color-mix(in srgb, var(--color-brand-teal) 84%, black); }
+
+/* ---------- Estate card (Le Tenute) ---------- */
+.estate { padding-block: var(--space-xl); text-align: center; }
+.estate__img { width: 100%; max-width: 760px; height: auto; margin: 0 auto var(--space-md); }
+.estate__title { font-family: var(--font-display); font-weight: 400; font-size: clamp(44px, 6vw, 72px); line-height: 1.1; color: var(--color-brand-teal); margin-bottom: var(--space-md); }
+.estate .prose { margin-inline: auto; }
+.readmore { display: inline-block; margin-top: var(--space-md); font-family: var(--font-body); font-weight: 700; font-size: 14px; letter-spacing: .5px; color: var(--color-neutral-ink); text-decoration: none; transition: color var(--dur-base) var(--ease-base); }
+.readmore:hover { color: var(--color-brand-teal); }
+
+/* ---------- Mappa vigneti (Martinenga) ---------- */
+.vmap { padding-block: var(--space-2xl); }
+.vmap__stage { position: relative; max-width: 940px; margin: 0 auto; }
+.vmap__img { width: 100%; height: auto; display: block; }
+.vmap__dot {
+  position: absolute; transform: translate(-50%, -50%);
+  width: 16px; height: 16px; border-radius: 50%; padding: 0;
+  background: #fff; border: 0; cursor: pointer;
+  box-shadow: 0 0 0 4px rgba(255,255,255,.45), 0 1px 4px rgba(0,0,0,.3);
+  transition: box-shadow var(--dur-base) var(--ease-base), background var(--dur-base) var(--ease-base);
+  z-index: 2;
+}
+.vmap__dot:hover, .vmap__dot.is-active {
+  background: var(--color-brand-teal);
+  box-shadow: 0 0 0 6px color-mix(in srgb, var(--color-brand-teal) 35%, transparent);
+}
+.vmap__card {
+  position: absolute; transform: translate(-50%, calc(-100% - 18px));
+  width: 250px; background: #fff; border: 2px solid var(--color-accent-navy);
+  padding: var(--space-md); text-align: center;
+  font-size: 14px; line-height: 1.65; color: var(--color-neutral-ink);
+  opacity: 0; visibility: hidden; pointer-events: none;
+  transition: opacity var(--dur-base) var(--ease-base);
+  z-index: 3;
+}
+.vmap__card--below { transform: translate(-50%, 18px); }
+.vmap__card.is-open { opacity: 1; visibility: visible; }
+.vmap__card strong { display: block; font-size: 15px; margin-bottom: 6px; }
+.vmap__card span { display: block; }
+.vmap__card .vmap__vino { margin-top: 8px; font-weight: 700; }
+.vmap__list { display: none; }
+
+/* ---------- Altre tenute (3 colonne, fondo pagine dettaglio) ---------- */
+.otherest { padding-block: var(--space-2xl); }
+.otherest__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-lg); text-align: center; }
+.otherest__title { font-family: var(--font-display); font-weight: 400; font-size: clamp(28px, 3vw, 40px); line-height: 1.1; color: var(--color-brand-teal); margin-bottom: var(--space-md); }
+.otherest__item .prose { font-size: 15px; }
+@media (max-width: 767px) { .otherest__grid { grid-template-columns: 1fr; gap: var(--space-xl); } }
+
+/* ---------- Catalogo vini (I Vini) ---------- */
+.wcat { position: relative; padding-block: var(--space-lg); text-align: center; }
+.wcat__title {
+  font-family: var(--font-display); font-weight: 400;
+  font-size: clamp(64px, 13vw, 145px); line-height: .92;
+  color: var(--color-accent-navy); margin: 0; position: relative; z-index: 0;
+}
+.wcat__row {
+  position: relative; z-index: 1;
+  display: flex; flex-wrap: wrap; justify-content: center; align-items: flex-start;
+  gap: var(--space-md) var(--space-xl); margin-top: -56px;
+}
+.wbottle { width: 130px; margin: 0; }
+.wbottle:nth-child(even) { transform: translateY(34px); }
+.wbottle__img { height: 264px; width: auto; display: block; margin: 0 auto var(--space-sm); filter: drop-shadow(0 8px 18px rgba(0,0,0,.14)); }
+.wbottle__name { font-family: var(--font-body); font-size: 14px; line-height: 1.4; color: var(--color-neutral-ink); }
+@media (max-width: 767px) {
+  .wcat__title { font-size: clamp(46px, 17vw, 96px); }
+  .wcat__row { margin-top: -28px; gap: var(--space-lg); }
+  .wbottle { width: 44%; max-width: 130px; }
+  .wbottle:nth-child(even) { transform: none; }
+  .wbottle__img { height: 220px; }
+}
+
+@media (max-width: 767px) {
+  .vmap__stage { display: none; }
+  .vmap__list { display: block; list-style: none; padding: 0; margin: 0 auto; max-width: 520px; }
+  .vmap__li { padding: var(--space-md) 0; border-bottom: 1px solid var(--color-neutral-line); text-align: center; }
+  .vmap__li strong { display: block; font-family: var(--font-display); font-size: 24px; color: var(--color-brand-teal); margin-bottom: 4px; }
+  .vmap__li span { display: block; font-size: 14px; }
+  .vmap__li .vmap__vino { font-weight: 700; margin-top: 4px; }
+}
+
+/* ---------- Footer ---------- */
+.footer { background: var(--color-brand-footer); color: #fff; padding-top: var(--space-2xl); }
+.footer > .wrap { padding-bottom: var(--space-2xl); }  /* respiro tra blocco UE e fascia loghi */
+.footer a { text-decoration: none; color: #fff; transition: color var(--dur-base) var(--ease-base); }
+.footer a:hover { color: var(--color-accent-gold); }
+
+.footer__cols { display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px; text-align: center; }
+.footer__col { display: flex; flex-direction: column; gap: 26px; }
+.footer__title { font-family: var(--font-heading); font-size: 20px; }
+.footer__sub { list-style: none; padding: 0; margin: 14px 0 0; display: flex; flex-direction: column; gap: 8px; }
+.footer__sub a { font-size: 15px; opacity: .9; }
+
+.footer__lower { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-md); align-items: start; margin-top: var(--space-xl); }
+.footer__addr { grid-column: 1 / span 2; }        /* indirizzi tra col.1 (menu) e col.2 (Le Tenute) */
+.footer__info { text-align: center; font-size: 14px; line-height: 1.9; }
+.footer__eu { margin-top: var(--space-md); display: flex; align-items: center; gap: var(--space-xs); font-size: 12px; opacity: .85; }  /* marchio UE subito sotto gli indirizzi */
+.footer__eu img { width: 40px; height: auto; }
+.footer__right { grid-column: 3 / span 2; text-align: right; }
+.footer__social { display: flex; gap: 18px; justify-content: flex-end; }
+.footer__social img { height: 20px; width: auto; filter: brightness(0) invert(1); }
+.footer__credit { margin-top: 22px; font-size: 12px; opacity: .8; line-height: 1.7; }
+
+.footer__badges { background: var(--color-neutral-cream); padding: var(--space-xl) clamp(20px, 6%, 80px); }
+.footer__badges-row { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 24px; max-width: var(--container-max); margin: 0 auto; }
+.footer__badges-row img { height: 66px; width: auto; }
+.footer__feasr { margin-top: 26px; font-size: 13px; color: var(--color-neutral-ink); text-decoration: underline; text-align: center; }
+
+@media (max-width: 991px) {
+  .footer__cols { grid-template-columns: repeat(2, 1fr); gap: 40px 24px; }
+}
+@media (max-width: 767px) {
+  .footer__cols { grid-template-columns: 1fr; }
+  .footer__lower { grid-template-columns: 1fr; text-align: center; gap: 32px; }
+  .footer__addr, .footer__right { grid-column: 1; text-align: center; }
+  .footer__social, .footer__eu, .footer__badges-row { justify-content: center; }
+}
+
+/* ---------- Contatti: schede ---------- */
+.ct-cards { padding-block: var(--space-2xl); }
+.ct-cards__grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-xl); }
+.ct-card { text-align: center; }
+.ct-card__img { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; margin-bottom: var(--space-lg); display: block; }
+.ct-card__title {
+  font-family: var(--font-display); font-weight: 700;
+  font-size: clamp(34px, 4.2vw, 48px); line-height: 1.1;
+  color: var(--color-brand-teal); margin-bottom: var(--space-sm);
+}
+.ct-card__org, .ct-card__addr {
+  font-family: var(--font-heading); font-size: 18px; line-height: 1.55;
+  color: var(--color-neutral-ink); max-width: 34ch; margin-inline: auto;
+}
+.ct-card__addr { margin-top: var(--space-xs); }
+.ct-card__line { font-family: var(--font-body); font-size: 15px; color: var(--color-neutral-ink); margin-top: var(--space-sm); }
+.ct-card__line a { color: var(--color-brand-teal); font-weight: 700; text-decoration: none; }
+.ct-card__line a:hover { text-decoration: underline; }
+.ct-card__btns { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--space-sm); margin-top: var(--space-lg); }
+.ct-btn {
+  display: inline-block; padding: 11px 20px; border: 1px solid var(--color-brand-teal);
+  background: var(--color-brand-teal); color: #fff;
+  font-family: var(--font-body); font-size: 14px; letter-spacing: .5px;
+  text-decoration: none; border-radius: 0;
+  transition: background var(--dur-base) var(--ease-base), color var(--dur-base) var(--ease-base);
+}
+.ct-btn:hover { background: color-mix(in srgb, var(--color-brand-teal) 84%, black); }
+.ct-btn--outline { background: transparent; color: var(--color-brand-teal); }
+.ct-btn--outline:hover { background: var(--color-brand-teal); color: #fff; }
+
+/* ---------- Contatti: modulo ---------- */
+.ct-form { padding-block: 0 var(--space-2xl); }
+.ct-form__form { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-md); align-items: start; }
+.ct-field { min-width: 0; }               /* evita overflow della colonna in grid */
+.ct-field--full { grid-column: 1 / -1; }  /* Note: riga intera */
+.ct-field__input {
+  width: 100%; font-family: var(--font-body); font-size: 16px; color: var(--color-neutral-ink);
+  background: #fff; border: 1px solid var(--color-neutral-line); border-radius: 0;
+  padding: 13px 14px; transition: border-color var(--dur-base) var(--ease-base);
+}
+.ct-field__input:focus { outline: none; border-color: var(--color-brand-teal); }
+.ct-field__input--area { min-height: 160px; resize: vertical; }
+.ct-field__input::placeholder { color: #9a9a9a; }
+/* select "Stato": stesso look degli input + freccia custom */
+.ct-field__select {
+  appearance: none; -webkit-appearance: none; cursor: pointer; padding-right: 40px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='none' stroke='%23555657' stroke-width='1.5' d='M1 1l5 5 5-5'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right 14px center; background-size: 12px;
+}
+.ct-field__select:has(option[value=""]:checked) { color: #9a9a9a; }  /* placeholder grigio finché non si sceglie */
+/* honeypot anti-spam: fuori schermo, invisibile agli umani */
+.ct-hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; opacity: 0; }
+.ct-consent { grid-column: 1 / -1; display: flex; align-items: flex-start; gap: var(--space-2xs); margin-top: var(--space-2xs); font-family: var(--font-body); font-size: 14px; color: var(--color-neutral-ink); }
+.ct-consent input { margin-top: 3px; accent-color: var(--color-brand-teal); }
+.ct-consent a { color: var(--color-brand-teal); font-weight: 700; }
+.ct-submit {
+  grid-column: 1 / -1; justify-self: start;
+  display: inline-block; margin-top: var(--space-xs); cursor: pointer;
+  background: var(--color-brand-teal); color: #fff; border: 1px solid var(--color-brand-teal);
+  font-family: var(--font-body); font-weight: 700; font-size: 18px; border-radius: 0; padding: 11px 26px;
+  transition: background var(--dur-base) var(--ease-base);
+}
+.ct-submit:hover { background: color-mix(in srgb, var(--color-brand-teal) 84%, black); }
+.ct-submit:disabled { opacity: .6; cursor: default; }
+.ct-msg { grid-column: 1 / -1; margin-top: var(--space-2xs); font-family: var(--font-body); font-size: 15px; padding: 12px 16px; }
+.ct-msg--ok { color: #0d555d; background: color-mix(in srgb, var(--color-brand-teal) 12%, #fff); }
+.ct-msg--err { color: #b23b3b; background: color-mix(in srgb, #b23b3b 10%, #fff); }
+
+@media (max-width: 767px) {
+  .ct-cards__grid { grid-template-columns: 1fr; gap: var(--space-2xl); }
+  .ct-form__form { grid-template-columns: 1fr; }  /* campi impilati su mobile */
+}
+
+/* ---------- Pagine legali (Cookie Policy) ---------- */
+.legal-hero { position: relative; background: var(--color-brand-teal); color: #fff; text-align: center; padding: 104px 0 44px; }
+.legal-hero__crest { width: clamp(120px, 13vw, 160px); height: auto; margin: 0 auto 14px; display: block; filter: drop-shadow(0 2px 14px rgba(0,0,0,.35)); }
+.legal-hero__title { font-family: var(--font-heading); font-weight: 700; font-size: clamp(36px, 6vw, 61px); line-height: 1.1; color: #fff; }
+.legal { padding-block: var(--space-2xl); }
+.legal__wrap { max-width: 820px; margin-inline: auto; padding-inline: var(--container-gutter); }
+.legal__intro { font-family: var(--font-body); font-size: 17px; line-height: 1.7; color: var(--color-neutral-ink); margin-bottom: var(--space-lg); }
+.legal__section { margin-bottom: var(--space-lg); }
+.legal__section h2 { font-family: var(--font-heading); font-weight: 700; font-size: 22px; line-height: 1.3; color: var(--color-brand-teal); margin-bottom: var(--space-sm); }
+.legal__section p { font-family: var(--font-body); font-size: 16px; line-height: 1.7; color: var(--color-neutral-ink); margin-bottom: .9em; }
+.legal__section ul { margin: 0 0 1em 1.2em; }
+.legal__section li { font-family: var(--font-body); font-size: 16px; line-height: 1.7; color: var(--color-neutral-ink); margin-bottom: .4em; }
+.legal a { color: var(--color-brand-teal); font-weight: 600; text-decoration: none; }
+.legal a:hover { text-decoration: underline; }
+.legal__updated { margin-top: var(--space-xl); font-size: 14px; color: var(--color-neutral-ink); opacity: .7; font-style: italic; }
+
+/* ---------- Banner cookie (site-wide) ---------- */
+.cookiebar {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 30;  /* sotto l'overlay menu (40): il menu aperto lo copre */
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 12px 28px;
+  background: var(--color-brand-footer); color: #fff;
+  padding: 16px clamp(16px, 6%, 80px);
+  transform: translateY(110%); transition: transform var(--dur-base) var(--ease-base);
+  box-shadow: 0 -6px 24px rgba(0,0,0,.18);
+}
+.cookiebar[data-state="visible"] { transform: translateY(0); }
+.cookiebar__text { font-family: var(--font-body); font-size: 14px; line-height: 1.5; margin: 0; max-width: 760px; }
+.cookiebar__text a { color: var(--color-accent-gold); text-decoration: underline; }
+.cookiebar__actions { display: flex; gap: 12px; flex-shrink: 0; }
+.cookiebar__btn {
+  cursor: pointer; border: 1px solid #fff; background: #fff; color: var(--color-brand-footer);
+  font-family: var(--font-body); font-weight: 700; font-size: 14px; padding: 9px 24px; border-radius: 0;
+  transition: background var(--dur-base) var(--ease-base), color var(--dur-base) var(--ease-base);
+}
+.cookiebar__btn:hover { background: var(--color-accent-gold); border-color: var(--color-accent-gold); color: #fff; }
+.cookiebar__btn--ghost { background: transparent; color: #fff; }
+.cookiebar__btn--ghost:hover { background: rgba(255,255,255,.14); border-color: #fff; color: #fff; }
+@media (max-width: 767px) {
+  .cookiebar { flex-direction: column; align-items: stretch; text-align: center; }
+  .cookiebar__actions { justify-content: center; }
+}
+
+/* ---------- Scheda vino (/vini/<slug>) ---------- */
+.winehero { position: relative; background: var(--color-brand-teal); text-align: center; padding: 96px 0 32px; }
+.winehero__crest { width: clamp(120px, 13vw, 160px); height: auto; margin: 0 auto; display: block; filter: drop-shadow(0 2px 14px rgba(0,0,0,.35)); }
+.wine { padding-block: var(--space-2xl); }
+.wine__grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: var(--space-2xl); align-items: center; }
+.wine__media { text-align: center; }
+.wine__bottle { height: clamp(300px, 44vh, 500px); width: auto; filter: drop-shadow(0 14px 28px rgba(0,0,0,.18)); }
+.wine__title { font-family: var(--font-display); font-weight: 700; font-size: clamp(32px, 4.4vw, 58px); line-height: 1.08; color: var(--color-brand-teal); margin-bottom: var(--space-lg); }
+.wine__eyebrow { display: block; font-family: var(--font-body); font-size: 13px; letter-spacing: 2px; text-transform: uppercase; color: var(--color-neutral-ink); opacity: .7; margin-bottom: var(--space-xs); }
+.wine__vintages { margin-bottom: var(--space-lg); }
+.wine__vint-list { display: flex; flex-wrap: wrap; gap: var(--space-xs); }
+.wine__vint { display: inline-block; padding: 8px 16px; border: 1px solid var(--color-brand-teal); color: var(--color-brand-teal); font-family: var(--font-body); font-size: 15px; text-decoration: none; transition: background var(--dur-base) var(--ease-base), color var(--dur-base) var(--ease-base); }
+.wine__vint:hover { background: var(--color-brand-teal); color: #fff; }
+.wine__downloads { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-md); margin-top: var(--space-sm); }
+.wine__downloads .btn { margin-top: 0; }
+.wine__dl { font-family: var(--font-body); font-weight: 700; font-size: 14px; letter-spacing: .5px; color: var(--color-neutral-ink); text-decoration: underline; }
+.wine__dl:hover { color: var(--color-brand-teal); }
+.wine__back { display: inline-block; margin-top: var(--space-xl); }
+@media (max-width: 767px) {
+  .wine__grid { grid-template-columns: 1fr; gap: var(--space-lg); text-align: center; }
+  .wine__vint-list, .wine__downloads { justify-content: center; }
+}
+
+/* catalogo I Vini: bottiglia cliccabile → scheda vino */
+.wbottle { margin: 0; }
+.wbottle--link { text-decoration: none; color: inherit; cursor: pointer; display: block; transition: transform var(--dur-base) var(--ease-base); }
+.wbottle--link:hover { transform: translateY(-4px); }
+.wbottle--link:hover .wbottle__name { color: var(--color-brand-teal); }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition: none !important; animation: none !important; }
+}
