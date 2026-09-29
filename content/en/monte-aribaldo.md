@@ -16,9 +16,9 @@ intro:
 map:
   image: "/assets/img/aribaldo-map.png"
   plots:
-    - { name: "Vigneto Di Sauvignon Blanc", ha: "2.15.92 Ha", esposizione: "N/NW", altitudine: "360m", vini: ["Sauvignon Langhe Doc", "Villa Giulia Langhe Bianco Doc"], x: 22.7, y: 25.9 }
-    - { name: "Vigneto Di Dolcetto", ha: "3.66.50 Ha", esposizione: "S/SW", altitudine: "370m", vini: ["Monte Aribaldo Dolcetto d'Alba Doc"], x: 36.6, y: 70.6 }
-    - { name: "Vigneto Di Chardonnay", ha: "1.69.27 Ha", esposizione: "W/NW", altitudine: "370m", vini: ["Chardonnay Langhe Doc", "Grésy Chardonnay Langhe Doc", "Villa Giulia Langhe Bianco Doc"], x: 54.3, y: 45 }
+    - { name: "Vigneto Di Sauvignon Blanc", ha: "2.15.92 Ha", esposizione: "N/NW", altitudine: "360m", vini: ["Sauvignon Langhe Doc", "Villa Giulia Langhe Bianco Doc"], x: 33.7, y: 25.9 }
+    - { name: "Vigneto Di Dolcetto", ha: "3.66.50 Ha", esposizione: "S/SW", altitudine: "370m", vini: ["Monte Aribaldo Dolcetto d'Alba Doc"], x: 47.7, y: 70.6 }
+    - { name: "Vigneto Di Chardonnay", ha: "1.69.27 Ha", esposizione: "W/NW", altitudine: "370m", vini: ["Chardonnay Langhe Doc", "Grésy Chardonnay Langhe Doc", "Villa Giulia Langhe Bianco Doc"], x: 65.3, y: 45 }
 estates:
   - { name: "Martinenga", href: "/martinenga", text: "Martinenga is home. Sacred to the local population for centuries, it was home to the first roman settlement in the area..." }
   - { name: "La Serra", href: "/la-serra", text: "Located in Cassine, Monferrato, La Serra estate consists of 11 hectares..." }

@@ -14,8 +14,8 @@ intro:
 map:
   image: "/assets/img/colombo-map.png"
   plots:
-    - { name: "Vigneto Di Barbera", ha: "2.41.02 Ha", esposizione: "S e SW", altitudine: "225m", vini: ["Barbera d'Asti Docg", "Monte Colombo Barbera d'Asti Docg"], x: 57.9, y: 46.4 }
-    - { name: "Vigneto Di Merlot", ha: "0.53.05 Ha", esposizione: "S", altitudine: "280m", vini: ["Merlot daSolo Monferrato Rosso Doc"], x: 31.3, y: 80.3 }
+    - { name: "Vigneto Di Barbera", ha: "2.41.02 Ha", esposizione: "S e SW", altitudine: "225m", vini: ["Barbera d'Asti Docg", "Monte Colombo Barbera d'Asti Docg"], x: 68.9, y: 46.4 }
+    - { name: "Vigneto Di Merlot", ha: "0.53.05 Ha", esposizione: "S", altitudine: "280m", vini: ["Merlot daSolo Monferrato Rosso Doc"], x: 42.3, y: 80.3 }
 estates:
   - { name: "Martinenga", href: "/martinenga", text: "Martinenga is home. Sacred to the local population for centuries, it was home to the first roman settlement in the area..." }
   - { name: "Monte Aribaldo", href: "/monte-aribaldo", text: "Just two kilometers away from Martinenga..." }

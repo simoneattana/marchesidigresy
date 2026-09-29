@@ -17,9 +17,9 @@ intro:
 map:
   image: "/assets/img/aribaldo-map.png"
   plots:
-    - { name: "Vigneto Di Sauvignon Blanc", ha: "2.15.92 Ha", esposizione: "N/NW", altitudine: "360m", vini: ["Sauvignon Langhe Doc", "Villa Giulia Langhe Bianco Doc"], x: 22.7, y: 25.9 }
-    - { name: "Vigneto Di Dolcetto", ha: "3.66.50 Ha", esposizione: "S/SW", altitudine: "370m", vini: ["Monte Aribaldo Dolcetto d'Alba Doc"], x: 36.6, y: 70.6 }
-    - { name: "Vigneto Di Chardonnay", ha: "1.69.27 Ha", esposizione: "W/NW", altitudine: "370m", vini: ["Chardonnay Langhe Doc", "Grésy Chardonnay Langhe Doc", "Villa Giulia Langhe Bianco Doc"], x: 54.3, y: 45 }
+    - { name: "Vigneto Di Sauvignon Blanc", ha: "2.15.92 Ha", esposizione: "N/NW", altitudine: "360m", vini: ["Sauvignon Langhe Doc", "Villa Giulia Langhe Bianco Doc"], x: 33.7, y: 25.9 }
+    - { name: "Vigneto Di Dolcetto", ha: "3.66.50 Ha", esposizione: "S/SW", altitudine: "370m", vini: ["Monte Aribaldo Dolcetto d'Alba Doc"], x: 47.7, y: 70.6 }
+    - { name: "Vigneto Di Chardonnay", ha: "1.69.27 Ha", esposizione: "W/NW", altitudine: "370m", vini: ["Chardonnay Langhe Doc", "Grésy Chardonnay Langhe Doc", "Villa Giulia Langhe Bianco Doc"], x: 65.3, y: 45 }
 estates:
   - { name: "Martinenga", href: "/martinenga", text: "Sorge sull'omonimo colle del comune di Treiso d'Alba a due chilometri dalla Martinenga. Su questa posizione..." }
   - { name: "La Serra", href: "/la-serra", text: "Ubicata sulle colline del comune di Cassine, sulla direttrice per Ricaldone e Alice Bel Colle..." }

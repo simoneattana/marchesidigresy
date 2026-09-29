@@ -22,16 +22,16 @@ espressioni:
 map:
   image: "/assets/img/martinenga-map.png"
   plots:
-    # Immagine = originale di produzione (martinenga.png). Punti su parcelle colorate distinte (verifica cantina).
-    - { name: "Vigneto Di Sauvignon Blanc", ha: "2.07.52 Ha", esposizione: "S/E e N", altitudine: "215m", vini: ["Sauvignon Langhe Doc"], x: 61.3, y: 84.0 }
-    - { name: "Vigneto di Gaiun Martinenga", ha: "2.30.16 Ha", esposizione: "S", altitudine: "270m", vini: ["Gaiun Martinenga Barbaresco Docg"], x: 30.3, y: 21.6 }
-    - { name: "Vigneto Di Cabernet Sauvignon", ha: "0.64.00 Ha", esposizione: "S/SW", altitudine: "240m", vini: ["Virtus Langhe Rosso Doc"], x: 73.6, y: 66.9 }
-    - { name: "Martinenga", ha: "6.49.00 Ha", esposizione: "S/SW", altitudine: "250m", vini: ["Martinenga Barbaresco Docg", "Nebbiolo Martinenga Langhe Doc"], x: 55.0, y: 15.5 }
-    - { name: "Vigneto Di Barbera", ha: "1.37.00 Ha", esposizione: "S e SW", altitudine: "225m", vini: ["Virtus Langhe Rosso Doc", "Villa Martis Langhe Rosso Doc"], x: 72.7, y: 39.9 }
-    - { name: "Vigneto Di Chardonnay", ha: "1.00.00 Ha", esposizione: "S/SW", altitudine: "210m", vini: ["Chardonnay Langhe Doc", "Grésy Chardonnay Langhe Doc"], x: 25.6, y: 30.0 }
-    - { name: "Vigneto Di Nebbiolo", ha: "0.67.00 Ha", esposizione: "NE e S", altitudine: "245m", vini: ["Villa Martis Langhe Rosso Doc"], x: 38.6, y: 78.4 }
-    - { name: "Vigneto Sperimentale Di Nebbiolo", ha: "0.28.00 Ha", esposizione: "S/SW", altitudine: "225m", vini: ["Nebbiolo Martinenga Langhe Doc"], x: 50.1, y: 37.3 }
-    - { name: "Vigneto Di Camp Gros Martinenga", ha: "2.58.00 Ha", esposizione: "SW", altitudine: "280m", vini: ["Camp Gros Martinenga Barbaresco Riserva Docg"], x: 84.0, y: 45.8 }
+    # Punti allineati alla mappa di PRODUZIONE letta a finestra 1180px (posizione renderizzata reale).
+    - { name: "Vigneto Di Sauvignon Blanc", ha: "2.07.52 Ha", esposizione: "S/E e N", altitudine: "215m", vini: ["Sauvignon Langhe Doc"], x: 43.9, y: 83.4 }
+    - { name: "Vigneto di Gaiun Martinenga", ha: "2.30.16 Ha", esposizione: "S", altitudine: "270m", vini: ["Gaiun Martinenga Barbaresco Docg"], x: 38.2, y: 27.6 }
+    - { name: "Vigneto Di Cabernet Sauvignon", ha: "0.64.00 Ha", esposizione: "S/SW", altitudine: "240m", vini: ["Virtus Langhe Rosso Doc"], x: 76.6, y: 92.3 }
+    - { name: "Martinenga", ha: "6.49.00 Ha", esposizione: "S/SW", altitudine: "250m", vini: ["Martinenga Barbaresco Docg", "Nebbiolo Martinenga Langhe Doc"], x: 63.2, y: 9.8 }
+    - { name: "Vigneto Di Barbera", ha: "1.37.00 Ha", esposizione: "S e SW", altitudine: "225m", vini: ["Virtus Langhe Rosso Doc", "Villa Martis Langhe Rosso Doc"], x: 58.2, y: 82.1 }
+    - { name: "Vigneto Di Chardonnay", ha: "1.00.00 Ha", esposizione: "S/SW", altitudine: "210m", vini: ["Chardonnay Langhe Doc", "Grésy Chardonnay Langhe Doc"], x: 14.1, y: 27.8 }
+    - { name: "Vigneto Di Nebbiolo", ha: "0.67.00 Ha", esposizione: "NE e S", altitudine: "245m", vini: ["Villa Martis Langhe Rosso Doc"], x: 25.9, y: 79.1 }
+    - { name: "Vigneto Sperimentale Di Nebbiolo", ha: "0.28.00 Ha", esposizione: "S/SW", altitudine: "225m", vini: ["Nebbiolo Martinenga Langhe Doc"], x: 55.3, y: 45.5 }
+    - { name: "Vigneto Di Camp Gros Martinenga", ha: "2.58.00 Ha", esposizione: "SW", altitudine: "280m", vini: ["Camp Gros Martinenga Barbaresco Riserva Docg"], x: 96.6, y: 43.4 }
 estates:
   - { name: "Monte Aribaldo", href: "/monte-aribaldo", text: "Just two kilometers away from Martinenga..." }
   - { name: "La Serra", href: "/la-serra", text: "Located in Cassine, Monferrato, La Serra estate consists of 11 hectares..." }
