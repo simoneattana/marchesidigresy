@@ -19,10 +19,16 @@ const nameBreaks = {
   "L'Altro Moscato Piemonte Moscato Passito Doc": "L'Altro Moscato Piemonte<br>Moscato Passito Doc",
   "Champagne JM Gobillard et Fils": "Champagne JM<br>Gobillard et Fils",
 };
+// Interruzioni di riga dei TITOLI di categoria, come nel sito di produzione.
+const titleBreaks = {
+  "Rossi Quotidiani": "Rossi<br>Quotidiani",
+  "Rossi Strutturati": "Rossi<br>Strutturati",
+  "Vini Importati": "Vini<br>Importati",
+};
 ---
 {categories.map((c) => (
   <section class="wcat" id={c.id}>
-    <h2 class="wcat__title">{c.title}</h2>
+    <h2 class="wcat__title" set:html={titleBreaks[c.title] || c.title}></h2>
     <div class="wrap wcat__row">
       {c.wines.map((w) => (
         <div class="wbottle">
