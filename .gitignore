@@ -8,4 +8,7 @@ dist/
 .DS_Store
 *.log
 
+# File superati (spostati qui invece di cancellarli), non versionati
+.trash-superseded/
+
 # Il mirror del vecchio sito Webflow vive in una cartella sorella, non qui.
