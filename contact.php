@@ -18,7 +18,7 @@ if (($_SERVER['REQUEST_METHOD'] ?? 'GET') !== 'POST') {
 }
 
 // --- Config notifica (equivalente Webflow; modificabile qui) ---
-$TO       = 'info@simoneattana.com';   // TEST temporaneo — rimettere hello@marchesidigresy.com dopo la verifica
+$TO       = 'hello@marchesidigresy.com';
 $FROM     = 'no-reply@marchesidigresy.com';   // deve essere verificato in SendGrid
 $SENDER   = 'Contact form';
 $SITE     = 'marchesidigresy.com';
