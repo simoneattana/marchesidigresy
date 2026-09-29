@@ -199,6 +199,14 @@ a { color: inherit; }
   font-size: clamp(64px, 13vw, 145px); line-height: .92;
   color: var(--color-accent-navy); margin: 0; position: relative; z-index: 0;
 }
+/* Colori titoli categoria — esatti dal sito di produzione (marchesidigresy.com/i-vini) */
+#bianchi .wcat__title    { color: #122a4b; }  /* navy */
+#quotidiani .wcat__title { color: #0d555d; }  /* teal */
+#strutturati .wcat__title{ color: #b4966d; }  /* oro-bruno */
+#barbaresco .wcat__title { color: #993441; }  /* rosso */
+#dessert .wcat__title    { color: #d49a00; }  /* oro */
+#grappe .wcat__title     { color: #77967c; }  /* salvia */
+#importati .wcat__title  { color: #d19a73; }  /* terracotta */
 .wcat__row {
   position: relative; z-index: 1;
   display: flex; flex-wrap: wrap; justify-content: center; align-items: flex-start;
