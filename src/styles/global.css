@@ -212,10 +212,10 @@ a { color: inherit; }
   display: flex; flex-wrap: wrap; justify-content: center; align-items: flex-start;
   gap: var(--space-md) var(--space-xl); margin-top: -56px;
 }
-.wbottle { width: 130px; margin: 0; }
+.wbottle { width: 130px; margin: 0; display: flex; flex-direction: column; align-items: center; }
 .wbottle:nth-child(even) { transform: translateY(34px); }
 .wbottle__img { height: 264px; width: auto; display: block; margin: 0 auto var(--space-sm); filter: drop-shadow(0 8px 18px rgba(0,0,0,.14)); }
-.wbottle__name { font-family: var(--font-body); font-size: 14px; line-height: 1.4; color: var(--color-neutral-ink); }
+.wbottle__name { font-family: var(--font-body); font-size: 14px; line-height: 1.2; color: var(--color-neutral-ink); white-space: nowrap; }
 @media (max-width: 767px) {
   .wcat__title { font-size: clamp(46px, 17vw, 96px); }
   .wcat__row { margin-top: -28px; gap: var(--space-lg); }

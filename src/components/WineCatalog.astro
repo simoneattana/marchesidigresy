@@ -11,6 +11,22 @@ const imgToSlug = Object.fromEntries(
   Object.entries(wines).filter(([, w]) => w.bottle).map(([slug, w]) => [w.bottle, slug])
 );
 const slugFor = (w, catId) => imgToSlug[w.image] || (catId === 'grappe' ? 'grappe' : null);
+// Interruzioni di riga dei nomi vino, identiche al sito di produzione (solo dove presenti).
+const nameBreaks = {
+  "Sauvignon Langhe Doc": "Sauvignon<br>Langhe Doc",
+  "Villa Giulia Langhe Bianco Doc": "Villa Giulia Langhe<br>Bianco Doc",
+  "Chardonnay Langhe Doc": "Chardonnay<br>Langhe Doc",
+  "Grésy Chardonnay Langhe Doc": "Grésy Chardonnay<br>Langhe Doc",
+  "Monte Aribaldo Dolcetto d'Alba Doc": "Monte Aribaldo<br>Dolcetto d'Alba Doc",
+  "Martinenga Langhe Doc Nebbiolo": "Martinenga Langhe<br>Doc Nebbiolo",
+  "Virtus Langhe Rosso Doc": "Virtus Langhe<br>Rosso Doc",
+  "Martinenga Barbaresco Docg": "Martinenga Barbaresco<br>Docg",
+  "Gaiun Martinenga Barbaresco Docg": "Gaiun Martinenga<br>Barbaresco Docg",
+  "Camp Gros Martinenga Barbaresco Riserva Docg": "Camp Gros Martinenga<br>Barbaresco Riserva Docg",
+  "La Serra Moscato d'Asti Docg": "La Serra Moscato<br>d'Asti Docg",
+  "L'Altro Moscato Piemonte Moscato Passito Doc": "L'Altro Moscato Piemonte<br>Moscato Passito Doc",
+  "Champagne JM Gobillard et Fils": "Champagne JM<br>Gobillard et Fils",
+};
 ---
 {categories.map((c) => (
   <section class="wcat" id={c.id}>
@@ -23,7 +39,7 @@ const slugFor = (w, catId) => imgToSlug[w.image] || (catId === 'grappe' ? 'grapp
         return (
           <Tag class:list={['wbottle', slug && 'wbottle--link']} {...extra}>
             <img class="wbottle__img" src={w.image} alt={w.name} loading="lazy" />
-            <span class="wbottle__name">{w.name}</span>
+            <span class="wbottle__name" set:html={nameBreaks[w.name] || w.name}></span>
           </Tag>
         );
       })}
