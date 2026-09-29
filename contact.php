@@ -18,7 +18,7 @@ if (($_SERVER['REQUEST_METHOD'] ?? 'GET') !== 'POST') {
 }
 
 // --- Config notifica (equivalente Webflow; modificabile qui) ---
-$TO       = 'hello@marchesidigresy.com';
+$TO       = 'info@simoneattana.com';   // TEST temporaneo — rimettere hello@marchesidigresy.com dopo la verifica
 $FROM     = 'no-reply@marchesidigresy.com';   // deve essere verificato in SendGrid
 $SENDER   = 'Contact form';
 $SITE     = 'marchesidigresy.com';
@@ -45,8 +45,14 @@ $html = "Hai ricevuto una nuova richiesta dal modulo di contatto.<br><br>"
       . "<strong>Sito</strong><br>" . htmlspecialchars($SITE) . "<br><br>"
       . "<strong>Contenuto inviato</strong><br>" . implode('<br>', $rows);
 
-// Invio disattivato finché SendGrid non è configurato.
-$key = getenv('SENDGRID_API_KEY');
+// Chiave SendGrid — RunCloud stack "Custom" (niente UI env). Letta in ordine da:
+//   1) fastcgi_param nginx ($_SERVER)  2) env (getenv)  3) file fuori dalla web root.
+$key = $_SERVER['SENDGRID_API_KEY'] ?? '';
+if (!$key) $key = getenv('SENDGRID_API_KEY') ?: '';
+if (!$key) {
+    $keyFile = '/home/runcloud/webapps/mdg-secret/sendgrid.key';
+    if (is_readable($keyFile)) $key = trim((string) file_get_contents($keyFile));
+}
 if (!$key) $done(['ok' => false, 'error' => 'not_configured'], 503);
 
 $payload = [
