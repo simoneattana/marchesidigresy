@@ -212,10 +212,10 @@ a { color: inherit; }
   display: flex; flex-wrap: wrap; justify-content: center; align-items: flex-start;
   gap: var(--space-md) var(--space-xl); margin-top: -56px;
 }
-.wbottle { width: 130px; margin: 0; display: flex; flex-direction: column; align-items: center; }
+.wbottle { width: 130px; margin: 0; }
 .wbottle:nth-child(even) { transform: translateY(34px); }
 .wbottle__img { height: 264px; width: auto; display: block; margin: 0 auto var(--space-sm); filter: drop-shadow(0 8px 18px rgba(0,0,0,.14)); }
-.wbottle__name { font-family: var(--font-body); font-size: 14px; line-height: 1.02; color: var(--color-neutral-ink); white-space: nowrap; }
+.wbottle__name { font-family: var(--font-body); font-size: 14px; line-height: 1.02; color: var(--color-neutral-ink); display: inline-block; width: max-content; max-width: 162px; }
 @media (max-width: 767px) {
   .wcat__title { font-size: clamp(46px, 17vw, 96px); }
   .wcat__row { margin-top: -28px; gap: var(--space-lg); }
@@ -408,11 +408,7 @@ a { color: inherit; }
   .wine__vint-list, .wine__downloads { justify-content: center; }
 }
 
-/* catalogo I Vini: bottiglia cliccabile → scheda vino */
-.wbottle { margin: 0; }
-.wbottle--link { text-decoration: none; color: inherit; cursor: pointer; display: block; transition: transform var(--dur-base) var(--ease-base); }
-.wbottle--link:hover { transform: translateY(-4px); }
-.wbottle--link:hover .wbottle__name { color: var(--color-brand-teal); }
+/* catalogo I Vini: bottiglie non cliccabili (link alle schede rimossi) */
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { transition: none !important; animation: none !important; }
