@@ -43,7 +43,7 @@ form:
   submit: "Send"
   success: "Thank you! Your message has been sent."
   error: "Oops! Something went wrong while sending. Please try again."
-  endpoint: ""   # Invio via SendGrid (public/contact.php su RunCloud). Al deploy → "/contact.php". Vedi docs/DEPLOY-RUNCLOUD.md
+  endpoint: "/contact.php"   # Invio via SendGrid (public/contact.php su RunCloud) — attivo dal go-live 2026-09-29
 ---
 
 Pagina Contatti EN. Form nostro (redesign) tradotto in inglese. Endpoint da impostare al deploy.

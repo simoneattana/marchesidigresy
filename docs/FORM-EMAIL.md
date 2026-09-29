@@ -3,11 +3,14 @@
 Replica la **notifica email** che Webflow inviava alla ricezione del modulo. L'invio è ora
 responsabilità del **nostro server** (RunCloud, PHP-FPM → SendGrid), non più di Webflow.
 
-## Stato
-- ✅ **Logica implementata**: modulo (`/contatti`, `/en/contatti`) + backend `public/contact.php`.
-- ⏸️ **Invio disattivato**: si attiva al **go-live sul dominio ufficiale** (scelta del cliente).
-  Finché manca la env `SENDGRID_API_KEY`, `contact.php` risponde `503` e **non invia** (nessun invio accidentale).
-  Inoltre l'endpoint del modulo è `""`, quindi il form non chiama nemmeno `contact.php`: doppia sicurezza.
+## Stato — ✅ ATTIVO (go-live 29/09/2026)
+- Modulo (`/contatti`, `/en/contatti`) con `endpoint: "/contact.php"` **collegato**; backend `public/contact.php` attivo.
+- Destinatario: `hello@marchesidigresy.com`. Reply-To = email di chi compila.
+- **Chiave SendGrid**: passata via `fastcgi_param SENDGRID_API_KEY` nell'handler nginx (letta da `$_SERVER`, con fallback `getenv`/file). **Non è in git.**
+- **Handler PHP** (lo stack RunCloud "Custom" NON esegue i `.php` di default): aggiunto nella NGINX Config della web app `mdg`, file `mdg.location.main-before.www-to-non-www.conf`:
+  `location = /contact.php { fastcgi_pass unix:/run/mdg.sock; include fastcgi_params; fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name; fastcgi_param SENDGRID_API_KEY "<key>"; }`
+  (socket PHP-FPM dell'app: `/run/mdg.sock`).
+- **Test 29/09/2026**: POST → `{"ok":true}`, mail consegnata **in inbox** a info@simoneattana.com (destinatario poi riportato a hello@). Smoke test senza consenso → `422` (non invia).
 
 ## Config Webflow originale (riferimento — screenshot cliente)
 - **To**: `hello@marchesidigresy.com`

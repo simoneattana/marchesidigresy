@@ -46,7 +46,7 @@ form:
   submit: "Invia"
   success: "Grazie! Il tuo messaggio è stato inviato."
   error: "Ops! Qualcosa è andato storto durante l'invio. Riprova."
-  endpoint: ""   # Invio via SendGrid (public/contact.php su RunCloud). Al deploy → "/contact.php". Vedi docs/DEPLOY-RUNCLOUD.md
+  endpoint: "/contact.php"   # Invio via SendGrid (public/contact.php su RunCloud) — attivo dal go-live 2026-09-29
 ---
 
 Pagina Contatti: due schede (Martinenga · Dai Gresy in Langa) + modulo di contatto.
