@@ -16,9 +16,17 @@ const engUrl = localizedUrl(canonical, 'en');
 const engReady = hasEn(canonical);  // ENG attivo solo se la pagina ha la versione EN
 ---
 <div class="topbar">
-  <button class="menu-btn" id="menuOpen" aria-haspopup="dialog" aria-controls="menuOverlay">
+  <button class="menu-btn js-menu-open" id="menuOpen" aria-haspopup="dialog" aria-controls="menuOverlay">
     Menu
-    <span class="menu-btn__lines" aria-hidden="true"><span></span><span></span></span>
+    <span class="menu-btn__lines" aria-hidden="true"><span></span><span></span><span></span></span>
+  </button>
+</div>
+
+<!-- Header che compare scrollando verso l'alto (sfondo verde) -->
+<div class="scrollnav" id="scrollnav">
+  <button class="menu-btn js-menu-open" aria-haspopup="dialog" aria-controls="menuOverlay">
+    Menu
+    <span class="menu-btn__lines" aria-hidden="true"><span></span><span></span><span></span></span>
   </button>
 </div>
 
@@ -48,7 +56,18 @@ const engReady = hasEn(canonical);  // ENG attivo solo se la pagina ha la versio
     overlay?.setAttribute('data-open', String(v));
     document.body.style.overflow = v ? 'hidden' : '';
   };
-  document.getElementById('menuOpen')?.addEventListener('click', () => set(true));
+  document.querySelectorAll('.js-menu-open').forEach((b) => b.addEventListener('click', () => set(true)));
   document.getElementById('menuClose')?.addEventListener('click', () => set(false));
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape') set(false); });
+
+  // Header verde: compare scrollando verso l'alto (non in cima alla pagina)
+  const scrollnav = document.getElementById('scrollnav');
+  let lastY = window.scrollY;
+  const SHOW_AFTER = 200;
+  window.addEventListener('scroll', () => {
+    const y = window.scrollY;
+    if (y < lastY - 2 && y > SHOW_AFTER) scrollnav?.classList.add('is-visible');
+    else if (y > lastY + 2 || y <= SHOW_AFTER) scrollnav?.classList.remove('is-visible');
+    lastY = y;
+  }, { passive: true });
 </script>

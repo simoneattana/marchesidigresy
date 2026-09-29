@@ -38,6 +38,23 @@ a { color: inherit; }
 .menu-btn__lines { display: inline-block; width: 26px; }
 .menu-btn__lines span { display: block; height: 2px; background: #fff; margin: 5px 0; transition: transform var(--dur-base) var(--ease-base); }
 
+/* Header verde che compare scrollando verso l'alto (sotto l'overlay 40, sopra la topbar 20) */
+.scrollnav {
+  position: fixed; inset: 0 0 auto 0; z-index: 30;
+  display: flex; align-items: center; justify-content: flex-end;
+  padding: 14px clamp(20px, 6%, 80px);
+  background: var(--color-brand-teal);
+  box-shadow: 0 2px 16px rgba(0,0,0,.18);
+  visibility: hidden;
+  transform: translateY(-100%);
+  transition: transform var(--dur-base) var(--ease-base), visibility 0s linear var(--dur-base);
+}
+.scrollnav.is-visible {
+  visibility: visible;
+  transform: translateY(0);
+  transition: transform var(--dur-base) var(--ease-base);
+}
+
 /* Overlay menu — replica del popup originale */
 .overlay {
   position: fixed; inset: 0; z-index: 40;
