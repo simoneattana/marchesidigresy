@@ -1,0 +1,25 @@
+# Changelog
+
+Tutte le modifiche rilevanti a questo progetto sono documentate qui.
+Formato: [Keep a Changelog](https://keepachangelog.com/it/1.1.0/); versioni [SemVer](https://semver.org/lang/it/).
+
+## [Unreleased]
+
+### Added
+- **Modulo contatti attivo in produzione** via SendGrid: handler nginx per `/contact.php` (socket PHP-FPM `/run/mdg.sock`), API key passata via `fastcgi_param`, `endpoint` del form collegato.
+- Record DNS SendGrid su Aruba: CNAME DKIM `em5967`/`s1._domainkey`/`s2._domainkey` + TXT `_dmarc`.
+- Runbook go-live (`docs/GO-LIVE.md`) e documentazione modulo email (`docs/FORM-EMAIL.md`).
+- Documenti di continuità: `AGENTS.md`, `CLAUDE.md`, `HANDOFF.md`, `CHANGELOG.md`.
+
+### Changed
+- **GO-LIVE (29/09/2026):** dominio `marchesidigresy.com` spostato da Webflow a RunCloud (`45.141.22.157`); `www` = CNAME → apex; apex → 301 → www; SSL Let's Encrypt ri-emesso sul dominio reale.
+- `contact.php`: destinatario `hello@marchesidigresy.com`, lettura key da `$_SERVER`/env/file.
+- Pagina `/i-vini`: colori titoli categoria e a capo dei nomi vino allineati alla produzione.
+- Menu: icona burger a 3 righe + header verde che compare su scroll verso l'alto.
+- Mappe vigne: punti allineati alla produzione a 1180px; mappa Martinenga corretta (era la variante mobile).
+
+### Fixed
+- Sovrapposizioni del testo dei nomi vino in `/i-vini`.
+
+### Removed
+- Link dei vini alle pagine interne in `/i-vini`.

@@ -8,6 +8,11 @@ dist/
 .DS_Store
 *.log
 
+# Segreti — mai nel repo (la key SendGrid sta sul server, non qui)
+.env
+.env.*
+!.env.example
+
 # File superati (spostati qui invece di cancellarli), non versionati
 .trash-superseded/
 
