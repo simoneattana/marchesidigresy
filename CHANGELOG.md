@@ -6,6 +6,8 @@ Formato: [Keep a Changelog](https://keepachangelog.com/it/1.1.0/); versioni [Sem
 ## [Unreleased]
 
 ### Added
+- **Google Analytics 4 riagganciato** (proprietà `G-XYWY12QBCB`, la stessa del sito Webflow): caricato **solo dopo consenso** del banner (nuovo `src/components/Analytics.astro`; `CookieBanner.astro` emette l'evento `mdg:consent`). Niente tracciamento prima del consenso né su "Rifiuta".
+- **Sitemap XML + robots.txt** per Google Search Console: integrazione `@astrojs/sitemap` (`/sitemap-index.xml` + `/sitemap-0.xml`, URL senza slash finale) e `public/robots.txt` che indica la sitemap.
 - **Modulo contatti attivo in produzione** via SendGrid: handler nginx per `/contact.php` (socket PHP-FPM `/run/mdg.sock`), API key passata via `fastcgi_param`, `endpoint` del form collegato.
 - Record DNS SendGrid su Aruba: CNAME DKIM `em5967`/`s1._domainkey`/`s2._domainkey` + TXT `_dmarc`.
 - Runbook go-live (`docs/GO-LIVE.md`) e documentazione modulo email (`docs/FORM-EMAIL.md`).

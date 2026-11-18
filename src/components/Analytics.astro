@@ -1,0 +1,33 @@
+---
+// Google Analytics 4 (GA4) — stessa proprietà del sito Webflow: G-XYWY12QBCB.
+// Caricato SOLO dopo consenso esplicito: il banner salva 'accepted' in localStorage
+// ('mdg-cookie-consent') ed emette l'evento 'mdg:consent'. Niente ping prima del
+// consenso, nulla su "rifiuta". Su visita di ritorno con 'accepted' parte al load;
+// al click su "Accetto" parte subito senza reload.
+const GA_ID = 'G-XYWY12QBCB';
+---
+<script define:vars={{ GA_ID }}>
+  (function () {
+    var KEY = 'mdg-cookie-consent';
+    var started = false;
+    function startGA() {
+      if (started) return;
+      started = true;
+      var s = document.createElement('script');
+      s.async = true;
+      s.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA_ID;
+      document.head.appendChild(s);
+      window.dataLayer = window.dataLayer || [];
+      function gtag() { window.dataLayer.push(arguments); }
+      window.gtag = gtag;
+      gtag('js', new Date());
+      gtag('config', GA_ID);
+    }
+    var saved = null;
+    try { saved = localStorage.getItem(KEY); } catch (e) {}
+    if (saved === 'accepted') startGA();
+    window.addEventListener('mdg:consent', function (e) {
+      if (e && e.detail === 'accepted') startGA();
+    });
+  })();
+</script>

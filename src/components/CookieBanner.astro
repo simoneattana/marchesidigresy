@@ -32,6 +32,7 @@ const policyHref = hasEn('/cookiepolicy') ? localizedUrl('/cookiepolicy', lang) 
     const choose = (v) => {
       try { localStorage.setItem(KEY, v); } catch (e) {}
       window.__mdgConsent = v;
+      window.dispatchEvent(new CustomEvent('mdg:consent', { detail: v }));
       bar.setAttribute('data-state', 'hidden');
     };
     document.getElementById('cookieAccept')?.addEventListener('click', () => choose('accepted'));
