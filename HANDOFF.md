@@ -44,7 +44,7 @@ Nessun test. Variabili d'ambiente per il build: **nessuna**. La API key SendGrid
 3. **SendGrid → Sender Authentication**: confermare che il dominio risulti "Verified" (già in inbox; garanzia a lungo termine).
 4. **Push `main` su GitHub**: locale è avanti a origin/main (il sito gira dal branch `deploy`, aggiornato).
 5. ✅ **Fatto (18/11):** GA4 + sitemap + robots deployati in produzione e verificati live.
-6. **Google Search Console**: inviare la sitemap (`https://www.marchesidigresy.com/sitemap-index.xml`) nel pannello GSC; verificare in **GA4 → Tempo reale** (proprietà `G-YYBYJVM4J1`) che arrivino gli hit accettando i cookie sul sito.
+6. ✅ **Search Console (18/11):** creata proprietà propria **URL-prefix `https://www.marchesidigresy.com/`**, verificata (File HTML → `public/googleae919649c59bc061.html`); **sitemap `sitemap-index.xml` inviata** (stato iniziale "Impossibile recuperare" = normale appena dopo l'invio, si risolve quando Google la scarica). Nota: la vecchia GSC verificata via DNS è di qualcun altro (storico ricerca non accessibile).
 7. ✅ **Analytics di proprietà (18/11):** creata proprietà GA4 propria `G-YYBYJVM4J1`, attiva sul sito. Lo **storico vecchio** (`G-XYWY12QBCB`) è su una proprietà altrui, **non accessibile/perso**; la nuova parte da zero. Se serve lo storico, farsi dare l'accesso a `G-XYWY12QBCB` dal cliente/vecchia agenzia.
 8. **Cleanup Webflow**: alla disdetta, rimuovere da Aruba il TXT residuo `proxy-ssl.webflow.com` (apex+www).
 
@@ -53,6 +53,7 @@ Nessun test. Variabili d'ambiente per il build: **nessuna**. La API key SendGrid
 - URL puliti: `location ~ ^/[^.]*$`, non `location /`. SSL: l'emissione Let's Encrypt si impunta col redirect forzato attivo (usare "No Redirection" fino a cert emesso).
 - Immagini e mappe vigne: byte-identiche alla produzione, punti calibrati a 1180px. **Non rigenerare.**
 - 2 video (Lavanda, 2° video la-serra) morti anche in produzione: non recuperabili, nessuna azione richiesta.
+- `public/googleae919649c59bc061.html` è il file di verifica di Google Search Console: **non rimuoverlo** (si perderebbe la verifica della proprietà `https://www.marchesidigresy.com/`).
 
 ## 9. File da leggere per primi
 - `AGENTS.md` — regole, comandi, deploy.

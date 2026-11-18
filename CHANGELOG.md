@@ -8,6 +8,7 @@ Formato: [Keep a Changelog](https://keepachangelog.com/it/1.1.0/); versioni [Sem
 ### Added
 - **Google Analytics 4** caricato **solo dopo consenso** del banner (nuovo `src/components/Analytics.astro`; `CookieBanner.astro` emette l'evento `mdg:consent`; niente tracciamento prima del consenso né su "Rifiuta"). Proprietà **`G-YYBYJVM4J1`** — account/proprietà GA **di proprietà dell'utente** (la `G-XYWY12QBCB` del Webflow non era accessibile all'utente).
 - **Sitemap XML + robots.txt** per Google Search Console: integrazione `@astrojs/sitemap` (`/sitemap-index.xml` + `/sitemap-0.xml`, URL senza slash finale) e `public/robots.txt` che indica la sitemap.
+- **File di verifica Google Search Console** (`public/googleae919649c59bc061.html`): proprietà GSC URL-prefix `https://www.marchesidigresy.com/` verificata (metodo File HTML); sitemap inviata in GSC.
 - **Modulo contatti attivo in produzione** via SendGrid: handler nginx per `/contact.php` (socket PHP-FPM `/run/mdg.sock`), API key passata via `fastcgi_param`, `endpoint` del form collegato.
 - Record DNS SendGrid su Aruba: CNAME DKIM `em5967`/`s1._domainkey`/`s2._domainkey` + TXT `_dmarc`.
 - Runbook go-live (`docs/GO-LIVE.md`) e documentazione modulo email (`docs/FORM-EMAIL.md`).
