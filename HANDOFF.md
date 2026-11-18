@@ -20,13 +20,13 @@ Nessun test. Variabili d'ambiente per il build: **nessuna**. La API key SendGrid
 
 ## 4. Stato attuale
 - **Funziona (verificato 29/09):** `https://www.marchesidigresy.com` live su RunCloud, cert Let's Encrypt valido (→ 28/12), apex → 301 → www. DNS propagato su tutti i resolver. **Modulo contatti attivo**: POST → `{"ok":true}`, mail consegnata in inbox (test a info@simoneattana.com).
-- **A metà:** GA4 + sitemap + `robots.txt` aggiunti nel **sorgente (`main`)** e verificati in build/browser, ma **non ancora in produzione** (richiedono build → deploy sul branch `deploy`).
+- **Live (verificato 18/11):** GA4 (consent-gated), sitemap (`/sitemap-index.xml`, 60 URL) e `robots.txt` **in produzione** su `www.marchesidigresy.com` (HTTP 200).
 - **Da fare a mano (utente):** vedi Prossimi passi.
 
 ## 5. Ultima sessione (2026-11-18)
 - **Verifica connessioni Analytics/Search Console.** Scoperto che il GA4 del sito Webflow (`G-XYWY12QBCB`, su tutte le pagine) era stato **perso nel porting**: assente in sorgente e sul live. GSC risulta ancora verificato via TXT DNS (`google-site-verification=UoeIKdKUCv8…`, su apex+www), ma il sito non aveva sitemap né robots (404).
 - **Fatto:** riagganciato GA4 **dietro consenso** del banner (nuovo `src/components/Analytics.astro`; `CookieBanner.astro` emette `mdg:consent`, GA parte senza reload); aggiunta **sitemap** (`@astrojs/sitemap` → `/sitemap-index.xml`, URL puliti) e **`public/robots.txt`**. Build verde (60 pagine); comportamento consent-gating verificato nel browser (niente GA prima del consenso, GA attivo dopo "Accetta" e su visita di ritorno).
-- File toccati (repo): `src/components/Analytics.astro` (nuovo), `src/layouts/Base.astro`, `src/components/CookieBanner.astro`, `astro.config.mjs`, `public/robots.txt`, `package.json` + `package-lock.json`. **Non committato, non deployato** (in attesa di ok).
+- File toccati (repo): `src/components/Analytics.astro` (nuovo), `src/layouts/Base.astro`, `src/components/CookieBanner.astro`, `astro.config.mjs`, `public/robots.txt`, `package.json` + `package-lock.json`. Commit `e5c438b` su `main`; build **deployata** sul branch `deploy` (`782877a`) e **verificata live** (GA su 60/60 pagine, sitemap/robots 200).
 - Precedente (29/09): go-live DNS, SSL, modulo contatti SendGrid attivo (vedi `docs/FORM-EMAIL.md`).
 
 ## 6. Decisioni
@@ -41,9 +41,10 @@ Nessun test. Variabili d'ambiente per il build: **nessuna**. La API key SendGrid
 2. **Redirect HTTP→HTTPS** su RunCloud (SSL/TLS → "Server Side HTTPS Redirection"): ora è "No Redirection".
 3. **SendGrid → Sender Authentication**: confermare che il dominio risulti "Verified" (già in inbox; garanzia a lungo termine).
 4. **Push `main` su GitHub**: locale è avanti a origin/main (il sito gira dal branch `deploy`, aggiornato).
-5. **Deploy GA4 + sitemap**: dopo il commit, build + deploy sul branch `deploy` per portare in produzione analytics e sitemap.
-6. **Google Search Console**: a deploy fatto, inviare la sitemap (`https://www.marchesidigresy.com/sitemap-index.xml`) nel pannello GSC; verificare in **GA4 → Tempo reale** che arrivino gli hit (serve accesso alla proprietà `G-XYWY12QBCB`).
-7. **Cleanup Webflow**: alla disdetta, rimuovere da Aruba il TXT residuo `proxy-ssl.webflow.com` (apex+www).
+5. ✅ **Fatto (18/11):** GA4 + sitemap + robots deployati in produzione e verificati live.
+6. **Google Search Console**: inviare la sitemap (`https://www.marchesidigresy.com/sitemap-index.xml`) nel pannello GSC; verificare in **GA4 → Tempo reale** che arrivino gli hit (serve accesso alla proprietà `G-XYWY12QBCB`).
+7. **Storico GA4** (`G-XYWY12QBCB`): contiene i dati Webflow fino al **29/09**, poi **~7 settimane di buco** (29/09→18/11, tracciamento perso) e ripartenza dal 18/11. Per analizzarlo serve collegare Google Analytics (nessuna connessione GA in sessione).
+8. **Cleanup Webflow**: alla disdetta, rimuovere da Aruba il TXT residuo `proxy-ssl.webflow.com` (apex+www).
 
 ## 8. Trappole note
 - Stack RunCloud "Native NGINX + Custom config" **non esegue i `.php`** di default: serve l'handler nginx (in `mdg.location.main-before.www-to-non-www.conf`, socket `/run/mdg.sock`).
